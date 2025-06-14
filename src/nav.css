@@ -1,0 +1,37 @@
+:root {
+    --nav-width: min(275px, 20vw);
+}
+
+@media only screen and (max-width: 600px) {
+    :root {
+        --nav-width: 100%;
+    }
+}
+
+#app {
+    display: grid;
+    grid-template-columns: var(--nav-width) 1fr;
+}
+
+nav {
+    background: var(--col-nav-bar-bg);
+    border-right: 1px solid var(--col-standard-border);
+    height: 100%;
+    z-index: 999;
+    padding: 30px;
+}
+
+.nav-logo {
+    height: 32px;
+    cursor: pointer;
+    user-select: none;
+}
+
+main {
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+body {
+    overflow: hidden;
+}

@@ -1,0 +1,20 @@
+/* colors for each theme */
+:root {
+    --col-body-bg: #ffffff;
+    --col-text: #222222;
+    --col-text-secondary: #808080;
+
+    --col-nav-bar-bg: #F9F9F9;
+    --col-standard-border: rgba(217, 217, 217, 0.5);
+    --col-emphasis-border: rgba(217, 217, 217);
+
+    --col-other-bg: #F4F4F4;
+}
+
+:root:has(body[data-col-theme="dark"]) {
+
+}
+
+body[data-col-theme="dark"] img.nav-logo {
+    filter: invert(1);
+}
