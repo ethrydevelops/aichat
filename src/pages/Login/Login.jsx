@@ -78,7 +78,7 @@ export function Login() {
             <div className="login-modal-thing-container">
                 <div className="login-header-container">
                     <img src="/gronk.svg" alt="" className="login-logo us-none" />
-                    <p className="m-0 p-0 login-header-subhead us-none">Welcome back to Gronk Chat!</p>
+                    <p className="m-0 p-0 login-header-subhead us-none">Welcome back to Gronk!</p>
                 </div>
 
                 <form className="login-form" action="/" method="GET" onSubmit={loginSubmit}>
