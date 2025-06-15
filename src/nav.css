@@ -132,3 +132,8 @@ body {
     right: 30px;
     z-index: 50 !important;
 }
+
+/* align toaster with actual page content */
+#_rht_toaster {
+	margin-left: var(--nav-width);
+}

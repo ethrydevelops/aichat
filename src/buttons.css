@@ -1,0 +1,45 @@
+.btn-full {
+	width: 100%;
+}
+
+.btn {
+	border-radius: 3px;
+	border: none;
+	height: 40px;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+    text-decoration: none;
+	font-size: 16px;
+}
+
+.btn-primary {
+	background: var(--col-btn-primary);
+	color: #fff;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.btn-primary:hover {
+	background: var(--col-btn-primary-hover);
+}
+
+.btn-secondary {
+	background: transparent;
+	color: var(--col-btn-secondary);
+    border: 2px solid var(--col-btn-secondary);
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.btn-secondary:hover {
+	background: var(--col-btn-secondary);
+    color: white;
+}
+
+.btn .material-symbols-rounded {
+    font-variation-settings:
+        'FILL' 1;
+}

@@ -1,6 +1,7 @@
 import { useLocation } from 'preact-iso';
 import { useState } from 'preact/hooks';
 import "../nav.css";
+import { Toaster } from 'react-hot-toast';
 
 export function NavBar() {
 	const { url } = useLocation();
@@ -34,6 +35,11 @@ export function NavBar() {
 					</div>
 				</nav>
 			</div>
+			
+			<Toaster
+				position="top-center"
+				reverseOrder={false}
+			/>
 		</div>
 	);
 }

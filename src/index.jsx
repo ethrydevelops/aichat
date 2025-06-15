@@ -9,12 +9,16 @@ import { NavBar } from './components/NavBar.jsx';
 import { Home } from './pages/Home/index.jsx';
 import { NotFound } from './pages/_404.jsx';
 
+import './colors.css';
 import './fonts.css';
 
 import './style.css';
+import './buttons.css';
+
 import './mobile.css';
-import './colors.css';
+
 import { Login } from './pages/Login/Login.jsx';
+import { Logout } from './pages/Login/Logout.jsx';
 
 export function App() {
 	return (
@@ -26,7 +30,9 @@ export function App() {
 						<ProtectedRoute>
 							<Home></Home>
 						</ProtectedRoute>} />
-					<Route path="login" component={Login} />
+					
+					<Route path="/login" component={Login} />
+					<Route path="/logout" component={Logout} />
 
 					<Route default component={NotFound} />
 				</Router>

@@ -29,6 +29,10 @@
 	flex-direction: column;
 	align-items: center;
     
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
+
 	gap: 10px;
 }
 
@@ -64,6 +68,23 @@
     color: var(--col-text-secondary);
 }
 
+.login-form-instance-info-w {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    word-wrap: break-word;
+    justify-content: center;
+}
+
+.login-form-instance-info-w .material-symbols-rounded {
+    font-variation-settings: 'FILL' 1;
+    font-size: 18px;
+}
+
 .login-form-instance-info-emphasis {
     color: var(--col-text-secondary-emphasis);
 }
@@ -80,4 +101,11 @@
 
 .login-text-warning-spacing {
     margin-top: 5px;
+}
+
+.login-instance-save-group-flex {
+	display: grid;
+    grid-template-columns: 1fr 44.8px;
+    gap: 3px;
+    overflow: hidden;
 }
