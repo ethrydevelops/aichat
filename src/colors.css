@@ -2,6 +2,7 @@
 :root {
     --col-body-bg: #ffffff;
     --col-text: #000;
+    --col-text-out-of-focus: #444444;
     --col-text-secondary: #808080;
     --col-text-secondary-emphasis: #696969;
 
