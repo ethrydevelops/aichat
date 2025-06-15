@@ -7,8 +7,10 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"material-symbols": "^0.31.7",
 		"preact": "^10.25.3",
-		"preact-iso": "^2.9.2"
+		"preact-iso": "^2.9.2",
+		"universal-cookie": "^8.0.1"
 	},
 	"devDependencies": {
 		"@preact/preset-vite": "^2.9.3",

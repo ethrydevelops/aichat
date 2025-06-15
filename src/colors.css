@@ -9,10 +9,15 @@
     --col-emphasis-border: rgba(217, 217, 217);
 
     --col-other-bg: #F4F4F4;
+
+    --col-nav-icon: #808080;
+    --col-nav-icon-hover: #5a5a5a;
+
+    --col-floating-nav-button: #EDEDED;
 }
 
 :root:has(body[data-col-theme="dark"]) {
-
+    /* TODO: colours for dark theme */
 }
 
 body[data-col-theme="dark"] img.nav-logo {

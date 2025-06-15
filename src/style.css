@@ -10,6 +10,10 @@
 	-webkit-text-size-adjust: 100%;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 	background: var(--col-body-bg);
@@ -34,4 +38,8 @@ body {
 
 .page-container {
     margin: 70px;
+}
+
+.d-none {
+	display: none;
 }
