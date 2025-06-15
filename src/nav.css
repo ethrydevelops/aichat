@@ -1,5 +1,6 @@
 :root {
-    --nav-width: 260px;
+    /*--nav-width: 260px;*/
+    --nav-width: 280px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -15,6 +16,7 @@
 #app {
     display: grid;
     grid-template-columns: var(--nav-width) 1fr;
+    transition: grid-template-columns 0.3s ease;
 }
 
 nav {
@@ -48,10 +50,9 @@ nav * {
 
 .nav-logo {
     height: 32px;
-    width: min(80px, 100%);
     overflow: hidden;
-    object-fit: contain;
     cursor: pointer;
+    object-fit: cover;
     user-select: none;
 }
 
@@ -59,7 +60,6 @@ main {
     overflow-y: auto;
     max-height: 100vh;
     flex: 1;
-    transition: 0.3s;
 }
 
 body {
@@ -136,4 +136,36 @@ body {
 /* align toaster with actual page content */
 #_rht_toaster {
 	margin-left: var(--nav-width);
+}
+
+.nav-chats-list {
+    margin-top: 10px;
+}
+
+.nav-chats-list-search-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    height: 45px;
+    background: var(--col-body-bg);
+    border: 1px solid var(--col-standard-border);
+    padding: 0;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.nav-chats-list-search-input-text {
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    padding: 7px;
+}
+
+.nav-chats-list-search-submit {
+    border-radius: 10px !important;
+    padding: 9px;
 }
