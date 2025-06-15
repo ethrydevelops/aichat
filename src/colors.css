@@ -1,8 +1,12 @@
 /* colors for each theme */
 :root {
     --col-body-bg: #ffffff;
-    --col-text: #222222;
+    --col-text: #000;
     --col-text-secondary: #808080;
+    --col-text-secondary-emphasis: #696969;
+
+    --col-btn-primary: #000;
+    --col-btn-primary-hover: #222;
 
     --col-nav-bar-bg: #F9F9F9;
     --col-standard-border: rgba(217, 217, 217, 0.5);
@@ -20,6 +24,6 @@
     /* TODO: colours for dark theme */
 }
 
-body[data-col-theme="dark"] img.nav-logo {
+body[data-col-theme="dark"] img.nav-logo, body[data-col-theme="dark"] img.login-logo {
     filter: invert(1);
 }

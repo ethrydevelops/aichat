@@ -1,0 +1,83 @@
+.loginpage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	margin: 0;
+}
+
+.login-logo {
+	height: 60px;
+}
+
+.login-header-container {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+}
+
+.login-header-subhead {
+	font-size: 20px;
+    font-weight: 400;
+}
+
+.login-modal-thing-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    
+	gap: 10px;
+}
+
+.login-input-group {
+    display: flex;
+    flex-direction: column;
+    
+    width: 280px;
+    
+    gap: 4px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-input-group label {
+    font-size: 16px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    width: 280px;
+}
+
+.login-form-instance-info {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    color: var(--col-text-secondary);
+}
+
+.login-form-instance-info-emphasis {
+    color: var(--col-text-secondary-emphasis);
+}
+
+.login-choose-another-instance-link {
+    color: var(--col-text-secondary);
+    text-decoration: underline;
+    font-size: 13px;
+}
+
+.login-choose-another-instance-link:hover {
+    color: var(--col-text-secondary-emphasis);
+}
+
+.login-text-warning-spacing {
+    margin-top: 5px;
+}
