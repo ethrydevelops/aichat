@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { useLocation } from "preact-iso";
 import { InstancePicker } from "../../components/InstancePicker/InstancePicker.jsx";
 
-export function Login() {
+export function Register() {
     const cookies = new Cookies(null, { path: "/" });
 
     const [instance, setInstance] = useState("https://localhost"); // TODO: replace with actual default instance URL
@@ -27,7 +27,7 @@ export function Login() {
         }
     }, []);
 
-    function loginSubmit(e) {
+    function signupSubmit(e) {
         e.preventDefault();
 
         const formData = new FormData(e.target);
@@ -40,8 +40,8 @@ export function Login() {
             return;
         }
 
-        // send the login request, then get token
-        fetch(`${instance}/accounts/login`, {
+        // send the signup request
+        fetch(`${instance}/accounts/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -52,12 +52,38 @@ export function Login() {
             })
         }).then(response => {
             if (!response.ok) {
-                if(response.status === 401) {
-                    toast.error("Invalid username or password.");
-                    throw new Error("Invalid credentials");
+                if(response.status === 409) {
+                    toast.error("An account with this username already exists.");
+                    throw new Error("User already exists");
+                } else if(response.status === 400) {
+                    toast.error("Invalid registration data.");
+                    throw new Error("Invalid data");
                 } else {
-                    toast.error("Login failed.");
-                    throw new Error("Login failed");
+                    toast.error("Account creation failed.");
+                    throw new Error("Signup failed");
+                }
+            }
+            return response.json();
+        }).then(data => {
+            // account created, now login
+            toast.success("Account created successfully!");
+            
+            return fetch(`${instance}/accounts/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            });
+        }).then(response => {
+            if (!response.ok) {
+                if(response.status === 401) {
+                    throw new Error("Login failed after registration");
+                } else {
+                    throw new Error("Login failed after registration");
                 }
             }
             return response.json();
@@ -65,12 +91,15 @@ export function Login() {
             // save the token in cookies for 30 days
             cookies.set("gronk_tk", data.session.string, { path: "/", maxAge: 30 * 24 * 60 * 60 });
             cookies.set("gronk_instance_url", instance, { path: "/", maxAge: 30 * 24 * 60 * 60 }); // save the instance URL in cookies
-
-            toast.success("You are now logged in!");
             
             location.route("/"); // redirect to home page
-        })
-
+        }).catch(error => {
+            console.error("Signup/Login error:", error);
+            
+            if (error.message.includes("Login failed after registration")) {
+                location.route("/login");
+            }
+        });
     }
 
     return (
@@ -78,10 +107,10 @@ export function Login() {
             <div className="login-modal-thing-container">
                 <div className="login-header-container">
                     <img src="/gronk.svg" alt="" className="login-logo us-none" />
-                    <p className="m-0 p-0 login-header-subhead us-none">Welcome back to Gronk Chat!</p>
+                    <p className="m-0 p-0 login-header-subhead us-none">Welcome to Gronk Chat!</p>
                 </div>
 
-                <form className="login-form" action="/" method="GET" onSubmit={loginSubmit}>
+                <form className="login-form" action="/" method="GET" onSubmit={signupSubmit}>
                     <div className="login-input-group">
                         <label htmlFor="username" className="us-none">Username</label>
                         <input type="text" name="username" id="username" placeholder="Username" className="input-form" required />
@@ -95,11 +124,11 @@ export function Login() {
                     <InstancePicker 
                         instance={instance} 
                         setInstance={setInstance} 
-                        actionType="login" 
+                        actionType="signup" 
                     />
 
-                    <button type="submit" className="btn btn-full btn-primary">Login</button>
-                    <a href="/signup" className="btn btn-full btn-secondary">Create an account</a>
+                    <button type="submit" className="btn btn-full btn-primary">Create Account</button>
+                    <a href="/login" className="btn btn-full btn-secondary">Already have an account?</a>
                 </form>
             </div>
         </div>
