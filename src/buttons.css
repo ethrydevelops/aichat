@@ -43,3 +43,8 @@
     font-variation-settings:
         'FILL' 1;
 }
+
+.btn:disabled {
+	background: var(--col-text-secondary);
+	cursor: not-allowed;
+}

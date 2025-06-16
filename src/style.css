@@ -83,7 +83,7 @@ body {
 .homepage-chat-inner {
 	max-height: 90vh;
 	width: 50%;
-	overflow-y: auto;
+	overflow-y: hidden;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
@@ -141,4 +141,26 @@ body {
 
 .homepage-input-submit {
 	height: 45px !important;
+}
+
+.homepage-chat-input-under {
+	width: 100%;
+	text-align: left;
+}
+
+.model-selector-button {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	margin-top: 5px;
+	color: var(--col-text-out-of-focus);
+	text-decoration: none;
+	transition: 0.3s;
+	position: relative;
+}
+
+.model-selector-button:hover {
+	color: var(--col-text);
+	text-decoration: underline;
 }
