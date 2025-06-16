@@ -71,3 +71,70 @@ body {
 .h-100v { height: 100vh; }
 .w-100v { width: 100vw; }
 .square { aspect-ratio: 1 / 1; }
+
+.homepage-chat-container {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.homepage-chat-inner {
+	max-height: 90vh;
+	width: 50%;
+	overflow-y: auto;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.homepage-logo {
+	height: 65px;
+	user-select: none;
+	pointer-events: none;
+	margin-bottom: 20px;
+}
+
+.homepage-input-text-flex {
+	display: flex;
+	align-items: end;
+	justify-content: center;
+	width: 100%;
+	padding: 7px;
+	overflow-y: auto;
+
+	border-radius: 15px;
+	border: 1px solid var(--col-standard-border);	
+}
+
+.homepage-input-submit {
+	border-radius: 15px !important;
+}
+
+.homepage-input-textarea-outer {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.homepage-input-textarea {
+    width: 100%;
+    resize: none;
+    border: none;
+    vertical-align: middle;
+    padding: 0;
+    min-height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    display: block;
+	padding-left: 10px;
+	outline: none;
+	border-radius: 15px;
+}
+
+.homepage-input-submit {
+	height: 45px !important;
+}

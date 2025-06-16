@@ -1,38 +1,38 @@
-import preactLogo from '../../assets/preact.svg';
-
-export function Home() {
-	return (
-		<div class="home page-container">
-			<a href="https://preactjs.com" target="_blank">
-				<img src={preactLogo} alt="Preact logo" height="160" width="160" />
-			</a>
-			<h1>Get Started building Vite-powered Preact Apps </h1>
-			<section>
-				<Resource
-					title="Learn Preact"
-					description="If you're new to Preact, try the interactive tutorial to learn important concepts"
-					href="https://preactjs.com/tutorial"
-				/>
-				<Resource
-					title="Differences to React"
-					description="If you're coming from React, you may want to check out our docs to see where Preact differs"
-					href="https://preactjs.com/guide/v10/differences-to-react"
-				/>
-				<Resource
-					title="Learn Vite"
-					description="To learn more about Vite and how you can customize it to fit your needs, take a look at their excellent documentation"
-					href="https://vitejs.dev"
-				/>
-			</section>
-		</div>
-	);
+function generateGronk() {
+	const gronks = ["Feelin' gronky today?", "Let's get gronkin'!", "Get your gronk on!", "A gronk a day keeps the doctor away"]; // hopefully theo will appreciate my ideas
+	return gronks[Math.floor(Math.random() * gronks.length)];
 }
 
-function Resource(props) {
+export function Home() {
+	const theGronk = generateGronk();
+
+	function createChatSend(e) {
+		e.preventDefault();
+		// ...
+	}
+
+    function autoResize(e) {
+        e.target.style.height = 'auto';
+        e.target.style.height = e.target.scrollHeight + 'px';
+    }
+
 	return (
-		<a href={props.href} target="_blank" class="resource">
-			<h2>{props.title}</h2>
-			<p>{props.description}</p>
-		</a>
+		<div class="home page-container h-100 m-0 p-0">
+			<div className="homepage-chat-container">
+				<div className="homepage-chat-inner">
+					<img src="/gronk.svg" alt="Gronk logo" className="homepage-logo" />
+
+					<form action="/" className="homepage-input-text-flex" onSubmit={createChatSend}>
+						<div className="homepage-input-textarea-outer">
+							<textarea name="content" rows={1} placeholder={generateGronk()} onInput={autoResize} className="homepage-input-textarea" autoFocus={true}></textarea>
+						</div>
+
+						<button type="submit" className="btn btn-primary h-100 square homepage-input-submit" title="Send Message" aria-label="Send Message">
+							<span className="material-symbols-rounded">arrow_right_alt</span>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 	);
 }
