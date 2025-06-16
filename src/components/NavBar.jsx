@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 
 export function NavBar() {
 	const { url } = useLocation();
+	const location = useLocation();
 
 	const [navVisible, setNavVisible] = useState(true);
 	const [chats, setChats] = useState([]);
@@ -16,25 +17,29 @@ export function NavBar() {
 	
 	const isLoggedIn = !!authToken;
 
+	async function getConversations() {
+		await fetch(instanceUrl + "/conversations", {
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + authToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error("Failed to fetch conversations");
+			}
+			return response.json();
+		})
+		.then(data => {
+			setChats(data.conversations);
+		})
+	}
+
 	useEffect(() => {
 		if(isLoggedIn) {
 			// get chats
-			fetch(instanceUrl + "/conversations", {
-				method: "GET",
-				headers: {
-					"Authorization": "Bearer " + authToken,
-					"Content-Type": "application/json"
-				}
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error("Failed to fetch conversations");
-				}
-				return response.json();
-			})
-			.then(data => {
-				setChats(data.conversations);
-			})
+			getConversations();
 		}
 	}, []);
 
@@ -54,27 +59,15 @@ export function NavBar() {
 			return response.json();
 		})
 		.then(async () => {
-			fetch(instanceUrl + "/conversations", {
-				method: "GET",
-				headers: {
-					"Authorization": "Bearer " + authToken,
-					"Content-Type": "application/json"
-				}
-			})
-			.then(response => {
-				if (!response.ok) {
-					toast.error("Failed to update chats");
-					throw new Error("Failed to fetch conversations after deletion");
-				}
-				return response.json();
-			}
-			).then(data => {
-				setChats(data.conversations);
-			});
+			getConversations();
 		})
 		.catch(error => {
 			console.error("Error deleting chat:", error);
 		});
+	}
+
+	function newChat() {
+		location.route("/");
 	}
 	
 	return (
@@ -96,7 +89,7 @@ export function NavBar() {
 						<img src="/gronk.svg" alt="" className="nav-logo" />
 						<div className="nav-icons-flex">
 							{isLoggedIn ? (
-								<button title="New Chat" aria-label="New Chat" className="nav-button nav-open-nav-button" onClick={() => alert("// TODO: implement new chat button")}>
+								<button title="New Chat" aria-label="New Chat" className="nav-button nav-open-nav-button" onClick={newChat}>
 									<span className="material-symbols-rounded nav-icon">add</span>
 								</button>
 							) : null}
