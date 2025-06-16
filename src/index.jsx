@@ -20,6 +20,7 @@ import './mobile.css';
 import { Login } from './pages/Login/Login.jsx';
 import { Logout } from './pages/Login/Logout.jsx';
 import { Register } from './pages/Login/Register.jsx';
+import { Chat } from './pages/Chats/Chat.jsx';
 
 export function App() {
 	return (
@@ -35,6 +36,13 @@ export function App() {
 					<Route path="/login" component={Login} />
 					<Route path="/logout" component={Logout} />
 					<Route path="/signup" component={Register} />
+					<Route path="/chat/:id" component={(props) => 
+						<ProtectedRoute>
+							<Chat id={
+								// @ts-ignore
+								props.id
+							}></Chat>
+						</ProtectedRoute>} />
 
 					<Route default component={NotFound} />
 				</Router>

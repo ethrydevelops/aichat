@@ -60,7 +60,7 @@ export function Home() {
 				return;
 			}
 
-			fetch(instanceUrl + "/conversations/" + data.uuid + "/messages/", {
+			fetch(instanceUrl + "/conversations/" + data.uuid + "/messages/", { // TODO: move this to after page loads
 				method: 'POST',
 				headers: {
 					'Authorization': 'Bearer ' + authToken,

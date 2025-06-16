@@ -237,3 +237,108 @@ body {
 .model-selector-item-selected {
 	background-color: var(--col-other-bg);
 }
+
+.chat-area-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 70px;
+    scroll-behavior: smooth;
+	scrollbar-width: none;
+}
+
+.chat-message {
+	white-space: pre-wrap;
+	margin-bottom: 20px;
+}
+
+.chat-message:first-child {
+	margin-top: 80px;
+}
+
+.chat-message-user {
+	display: flex;
+	justify-content: end;
+}
+
+.chat-message-user .chat-message-content {
+	background-color: var(--col-other-bg);
+	border: 1px solid var(--col-standard-border);
+	padding: 14px 18px;
+	border-radius: 10px;
+	min-width: 170px;
+	display: inline-block;
+}
+
+.chat-page {
+	font-size: 20px;
+	display: grid;
+	grid-template-rows: 1fr 120px;
+}
+
+.chat-area-input-container {
+	width: calc(100% - calc(75px*2));
+	margin-left: 70px;
+	margin-right: 70px;
+	background: green;
+}
+
+.chat-message-model-thought-block {
+	margin-bottom: 10px;
+	font-style: italic;
+
+	border-left: 2px solid var(--col-standard-border);
+	color: var(--col-text-secondary-emphasis);
+	padding-left: 15px;
+}
+
+.chat-message-model-thinking-placeholder-box {
+	align-items: center;
+	gap: 10px;
+	user-select: none;
+
+	display: inline-flex;
+
+	background: var(--col-other-bg);
+	padding: 10px;
+	padding-left: 18px;
+	padding-right: 18px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+
+	cursor: pointer;
+	transition: 0.3s;
+
+	font-size: 18px;
+	border: none;
+
+	position: relative;
+}
+
+.chat-message-model-thinking-placeholder-box-opener-floating {
+	position: absolute;
+	right: -35px;
+	opacity: 0.3;
+	transition: 0.3s;
+}
+
+.chat-message-model-thinking-placeholder-box:hover .chat-message-model-thinking-placeholder-box-opener-floating {
+	opacity: 1.0;
+}
+
+.chat-message-model-thinking-placeholder-box:hover {
+	filter: brightness(0.95);
+}
+
+.chat-message-model-thinking-placeholder-box-icon {
+
+}
+
+.icon-spin-once {
+	rotate: 180deg;
+}
