@@ -52,7 +52,8 @@ export function InstancePicker({ instance, setInstance, actionType = "login" }) 
                     <button 
                         type="button" 
                         className="btn btn-primary h-100 square" 
-                        title="Save Instance URL as a cookie" 
+                        title="Save Instance URL as a cookie"
+                        aria-label="Save instance URL"
                         onClick={saveInstanceUrl}
                     >
                         <span className="material-symbols-rounded">save</span>

@@ -1,7 +1,7 @@
 import { useLocation } from 'preact-iso';
 import { useState, useEffect } from 'preact/hooks';
 import "../nav.css";
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import Cookies from 'universal-cookie';
 
 export function NavBar() {
@@ -37,13 +37,54 @@ export function NavBar() {
 			})
 		}
 	}, []);
+
+	async function deleteChatById(chatid) {
+		await fetch(instanceUrl + "/conversations/" + chatid, {
+			method: "DELETE",
+			headers: {
+				"Authorization": "Bearer " + authToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(response => {
+			if (!response.ok) {
+				toast.error("Failed to delete conversation");
+				throw new Error("Failed to delete conversation");
+			}
+			return response.json();
+		})
+		.then(async () => {
+			fetch(instanceUrl + "/conversations", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + authToken,
+					"Content-Type": "application/json"
+				}
+			})
+			.then(response => {
+				if (!response.ok) {
+					toast.error("Failed to update chats");
+					throw new Error("Failed to fetch conversations after deletion");
+				}
+				return response.json();
+			}
+			).then(data => {
+				setChats(data.conversations);
+			});
+		})
+		.catch(error => {
+			console.error("Error deleting chat:", error);
+		});
+	}
 	
 	return (
 		<div className="nav-container">
+			{ /* TODO: should focus on message bar first */ }
+
 			<div className="secondary-nav-outer-top">
 				{ /* replaces hidden navbar */ }
 				<div className={"nav-outer-top-in-nav" + (!navVisible ? "" : " d-none")}>
-					<button title="Toggle Sidebar" className="nav-button" onClick={() => setNavVisible(!navVisible)}>
+					<button title="Toggle Sidebar" aria-label="Toggle Sidebar" className="nav-button" onClick={() => setNavVisible(!navVisible)}>
 						<span className="material-symbols-rounded nav-icon">thumbnail_bar</span>
 					</button>
 				</div>
@@ -55,12 +96,12 @@ export function NavBar() {
 						<img src="/gronk.svg" alt="" className="nav-logo" />
 						<div className="nav-icons-flex">
 							{isLoggedIn ? (
-								<button title="New Chat" className="nav-button nav-open-nav-button" onClick={() => alert("// TODO: implement new chat button")}>
+								<button title="New Chat" aria-label="New Chat" className="nav-button nav-open-nav-button" onClick={() => alert("// TODO: implement new chat button")}>
 									<span className="material-symbols-rounded nav-icon">add</span>
 								</button>
 							) : null}
 							
-							<button title="Toggle Sidebar" className="nav-button nav-open-nav-button" onClick={() => setNavVisible(!navVisible)}>
+							<button title="Toggle Sidebar" aria-label="Toggle Sidebar" className="nav-button nav-open-nav-button" onClick={() => setNavVisible(!navVisible)}>
 								<span className="material-symbols-rounded nav-icon">thumbnail_bar</span>
 							</button>
 						</div>
@@ -91,13 +132,18 @@ export function NavBar() {
 									{ chats.length > 0 ? (
 										chats.map(chat => (
 											<a href={`/chat/${chat.uuid}`} className={"nav-chat-item " + (url.endsWith("/chat/" + chat.uuid) ? "nav-chat-item-focused" : "")} key={chat.id}>
-												<div>
-													<p className="m-0 p-0">
+												<div className="nav-chat-item-title-container">
+													<p className="m-0 p-0 nav-chat-item-button-title">
 														{chat.title || chat.uuid}
 													</p>
 												</div>
 
-												<div>
+												<div className={"nav-chat-item-buttons" + (url.endsWith("/chat/" + chat.uuid) ? "" : "-d-hover")}>
+													<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Delete "' + chat.title + '"'} onClick={() => {toast.promise(deleteChatById(chat.uuid), { loading: 'Deleting chat...', success: 'Chat deleted successfully!', error: 'Failed to delete chat' });}}>
+														<span className="material-symbols-rounded nav-chat-item-button-icon">
+															close
+														</span>
+													</button>
 													{ /* TODO: delete, rename */ }
 												</div>
 											</a>
