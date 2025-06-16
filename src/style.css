@@ -96,6 +96,8 @@ body {
 	user-select: none;
 	pointer-events: none;
 	margin-bottom: 20px;
+	max-width: 100%;
+	object-fit: contain;
 }
 
 .homepage-input-text-flex {
