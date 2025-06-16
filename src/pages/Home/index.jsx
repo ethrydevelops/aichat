@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import Cookies from 'universal-cookie';
 
 function generateGronk() {
-	const gronks = ["Feelin' gronky today?", "Let's get gronkin'!", "Get your gronk on!", "A gronk a day keeps the doctor away"]; // hopefully theo will appreciate my ideas
+	const gronks = ["Feelin' gronky today?", "Let's get gronkin'!", "Get your gronk on!", "A gronk a day keeps the doctor away"]; // hopefully theo will appreciate my jokes
 	return gronks[Math.floor(Math.random() * gronks.length)];
 }
 
