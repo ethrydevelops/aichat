@@ -41,7 +41,7 @@ export function NavBar() {
 			// get chats
 			getConversations();
 		}
-	}, []);
+	}, [url]);
 
 	async function deleteChatById(chatid) {
 		await fetch(instanceUrl + "/conversations/" + chatid, {
@@ -132,7 +132,7 @@ export function NavBar() {
 												</div>
 
 												<div className={"nav-chat-item-buttons" + (url.endsWith("/chat/" + chat.uuid) ? "" : "-d-hover")}>
-													<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Delete "' + chat.title + '"'} onClick={() => {toast.promise(deleteChatById(chat.uuid), { loading: 'Deleting chat...', success: 'Chat deleted successfully!', error: 'Failed to delete chat' });}}>
+													<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Delete "' + chat.title + '"'} onClick={() => {toast.promise(deleteChatById(chat.uuid), { loading: 'Deleting chat...', success: '"' + chat.title + '" deleted successfully!', error: 'Failed to delete chat' });}}>
 														<span className="material-symbols-rounded nav-chat-item-button-icon">
 															close
 														</span>

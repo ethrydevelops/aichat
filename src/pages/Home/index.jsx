@@ -1,5 +1,5 @@
 import { useLocation } from 'preact-iso';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useState, useMemo } from 'preact/hooks';
 import toast from 'react-hot-toast';
 import Cookies from 'universal-cookie';
 
@@ -12,6 +12,7 @@ export function Home() {
 	const [models, setModels] = useState([]);
 	const [selectedModel, setSelectedModel] = useState(null);
 	const [submitDisabled, setSubmitDisabled] = useState(false);
+	const [modelSelectorOpen, setModelSelectorOpen] = useState(false);
 
 	const cookies = new Cookies(null, { path: "/" });
 	const instanceUrl = cookies.get("gronk_instance_url");
@@ -19,7 +20,7 @@ export function Home() {
 
 	const location = useLocation();
 
-	const theGronk = generateGronk();
+	const theGronk = useMemo(() => generateGronk(), []);
 
 	function createChatSend(e) {
 		e.preventDefault();
@@ -78,8 +79,8 @@ export function Home() {
 		e.target.style.height = newHeight + 'px';
 	}
 
-	useEffect(() => {
-		fetch(instanceUrl + "/models/", {
+	async function fetchModels() {
+		await fetch(instanceUrl + "/models/", {
 			method: 'GET',
 			headers: {
 				'Authorization': 'Bearer ' + authToken,
@@ -95,10 +96,20 @@ export function Home() {
 			}
 		})
 		.catch(error => console.error('Error fetching models:', error));
+	}
+
+	useEffect(() => {
+		fetchModels();
 	}, []);
 
-	function openModelList(e) {
+	async function openModelList(e) {
+		e.preventDefault();
 
+		if(!modelSelectorOpen) {
+			fetchModels();
+		}
+
+		setModelSelectorOpen(!modelSelectorOpen);
 	}
 	
 	return (
@@ -118,10 +129,32 @@ export function Home() {
 					</form>
 
 					<div className="homepage-chat-input-under">
-						<a href="#" onClick={openModelList} className="model-selector-button">
-							{ selectedModel != null ? selectedModel.name : <u>Select your first model!</u> }
+						<a href="javascript:void(0)" onClick={openModelList} className="model-selector-button">
+							{ selectedModel != null ? selectedModel.name : <u>Select a model!</u> }
 							<span className="material-symbols-rounded">keyboard_arrow_down</span>
 						</a>
+
+						<div className={"model-selector-list " + (modelSelectorOpen ? "model-selector-list-open" : "")}>
+							<h2 className="m-0 p-0">Models</h2>
+
+							{/* TODO: model search bar */}
+
+							<div className="model-selector-list-grid us-none">
+								{models.length > 2 ? models.map((model) => (
+									<a href="javascript:void(0)" key={model.uuid} className={"model-selector-grid-item " + (selectedModel?.uuid === model.uuid ? "model-selector-item-selected" : "")} onClick={() => {setSelectedModel(model); setModelSelectorOpen(false);}} onDragStart={(e) => e.preventDefault()}>
+										<span class="material-symbols-rounded">smart_toy</span>
+										{model.name}
+									</a>
+								)) : (
+									null
+								)}
+
+								<a href="/settings/models" className="model-selector-grid-item" onDragStart={(e) => e.preventDefault()}>
+									<span class="material-symbols-rounded">tune</span>
+									Configure Models
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
