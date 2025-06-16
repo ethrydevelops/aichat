@@ -11,11 +11,12 @@ export function Home() {
 		// ...
 	}
 
-    function autoResize(e) {
-        e.target.style.height = 'auto';
-        e.target.style.height = e.target.scrollHeight + 'px';
-    }
-
+	function autoResize(e) {
+		e.target.style.height = 'auto';
+		const newHeight = Math.min(e.target.scrollHeight, 200);
+		e.target.style.height = newHeight + 'px';
+	}
+	
 	return (
 		<div class="home page-container h-100 m-0 p-0">
 			<div className="homepage-chat-container">
