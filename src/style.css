@@ -307,8 +307,7 @@ body {
 }
 
 .chat-message-model .chat-message-model-info {
-	position: absolute;
-	bottom: -1;
+	position: static;
 	color: var(--col-text-secondary);
 
 	pointer-events: none;
@@ -319,6 +318,7 @@ body {
 	display: flex;
 	gap: 5px;
 	align-items: center;
+	user-select: none;
 }
 
 .chat-message-model:hover .chat-message-model-info {
