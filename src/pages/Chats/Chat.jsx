@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from 'preact/hooks';
 import toast from 'react-hot-toast';
 import Cookies from 'universal-cookie';
 import { Message } from '../../components/ChatPage/Message';
+import io from '../../components/Socket';
 
 export function Chat({ id }) {
 	const [models, setModels] = useState([]);
@@ -66,7 +67,7 @@ export function Chat({ id }) {
 			
 			// sort:
 			const messages = data.messages;
-			messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+			messages.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
 			setChatMessages(messages);
 		})
@@ -78,6 +79,8 @@ export function Chat({ id }) {
 
 	function sendMessage(e) {
 		e.preventDefault();
+
+		if (submitDisabled) return;
 
 		const formData = new FormData(e.target);
 		const content = formData.get("content").toString().trim();
@@ -92,6 +95,9 @@ export function Chat({ id }) {
 			toast.error("Please select a model before sending a message.");
 			return;
 		}
+
+		e.target.reset();
+		autoResize({ target: e.target.querySelector("textarea") });
 
 		setSubmitDisabled(true);
 
@@ -114,67 +120,63 @@ export function Chat({ id }) {
 			body: JSON.stringify(messageData)
 		})
 		.then(response => {
-			const reader = response.body.getReader();
-			const decoder = new TextDecoder("utf-8");
-			let fullMessage = "";
-		
-			function readChunk() {
-				// TODO: this should be replaced with socket.io to sync properly between clients later
-				return reader.read().then(({ done, value }) => {
-					if (done) {
-						setSubmitDisabled(false);
-						return;
-					}
-				
-					const chunkText = decoder.decode(value, { stream: true });
-					
-					const lines = chunkText.split('\n');
-					for (const line of lines) {
-						if (line.startsWith('data: ')) {
-							try {
-								const data = JSON.parse(line.slice(6));
-								if (data.type === 'chunk' && data.content) {
-									fullMessage += data.content;
-								}
-							} catch (e) {
-								continue;
-							}
-						}
-					}
-				
-					let updatedMessages = [...chatMessages];
-					if (updatedMessages.length > 0) {
-						updatedMessages[updatedMessages.length - 1] = {
-							...updatedMessages[updatedMessages.length - 1],
-							content: fullMessage
-						};
-						setChatMessages(updatedMessages);
-					}
-				
-					scrollBottom(document.querySelector(".chat-area-messages"));
-				
-					return readChunk();
-				});
+			if (!response.ok) {
+				toast.error("Network response was not ok");
 			}
-		
-			return readChunk();
 		})
 		.catch(error => {
 			toast.error("Failed to send message");
 			console.error(error);
 			setSubmitDisabled(false);
 		});
-		
-
 	}
 
 	useEffect(() => {
 		setChatMessages([]);
+		setSubmitDisabled(false);
 		fetchModels();
-		
+	
 		refreshMessages().then(() => {
 			scrollBottom(document.querySelector(".chat-area-messages"));
 		});
+	
+		const handleMessageCreated = (data) => {
+			if (data.chat_uuid === id) {
+				const messageExists = chatMessages.some(msg => msg.uuid === data.uuid);
+				
+				if (!messageExists) {
+					refreshMessages().then(() => {
+						scrollBottom(document.querySelector(".chat-area-messages"));
+					});
+				}
+			}
+		};
+		
+		const handleMessageUpdated = (data) => {
+			if (data.chat_uuid === id) {
+				const messageExists = chatMessages.some(msg => msg.uuid === data.uuid);
+				
+				if (!messageExists) {
+					refreshMessages().then(() => {
+						scrollBottom(document.querySelector(".chat-area-messages"));
+					});
+				}
+			}
+		};
+	
+		const handleMessageCompleted = () => {
+			setSubmitDisabled(false);
+		};
+	
+		io.on("message_created", handleMessageCreated);
+		io.on("message_updated", handleMessageUpdated);
+		io.on("message_completed", handleMessageCompleted);
+	
+		return () => {
+			io.off("message_created", handleMessageCreated);
+			io.off("message_updated", handleMessageUpdated);
+			io.off("message_completed", handleMessageCompleted);
+		};
 	}, [url]);
 
 	async function openModelList(e) {
@@ -186,15 +188,23 @@ export function Chat({ id }) {
 
 		setModelSelectorOpen(!modelSelectorOpen);
 	}
+
+	function onMessageUpdate(updatedMessage) {
+		setChatMessages(prevMessages => 
+			prevMessages.map(msg => 
+				msg.uuid === updatedMessage.uuid ? { ...msg, content: updatedMessage.content } : msg
+			)
+		);
+
+		scrollBottom(document.querySelector(".chat-area-messages"));
+	}
 	
 	return (
 		<div class="chat-page page-container h-100 m-0 p-0">
 			<div className="chat-area-messages">
 				{chatMessages.map((msg) => (
-					<Message msg={msg}></Message>
+					<Message key={msg.uuid} msg={msg} onMessageUpdate={onMessageUpdate} />
 				))}
-
-				{/* TODO: scroll down button */}
 			</div>
 			<div className="chat-area-input-container">
 				<div className="chat-area-input-container-inner-part">

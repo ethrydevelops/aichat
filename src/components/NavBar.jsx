@@ -109,7 +109,7 @@ export function NavBar() {
 									<form className="nav-chats-list-search-flex">
 										<input type="text" className="nav-chats-list-search-input-text" placeholder="Search" />
 
-										<button className="btn btn-primary square h-100 nav-chats-list-search-submit" onClick={() => {alert("// TODO: search bar functionality")}}>
+										<button type="submit" className="btn btn-primary h-100 nav-chats-list-search-submit square" onClick={() => {alert("// TODO: search bar functionality")}}>
 											<span class="material-symbols-rounded">
 												search
 											</span>

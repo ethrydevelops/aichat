@@ -60,7 +60,7 @@ export function Home() {
 				return;
 			}
 
-			fetch(instanceUrl + "/conversations/" + data.uuid + "/messages/", { // TODO: maybe move this to after page loads?
+			fetch(instanceUrl + "/conversations/" + data.uuid + "/messages/", {
 				method: 'POST',
 				headers: {
 					'Authorization': 'Bearer ' + authToken,
@@ -140,7 +140,7 @@ export function Home() {
 							{/* TODO: model search bar */}
 
 							<div className="model-selector-list-grid us-none">
-								{models.length > 0 ? models.map((model) => (
+								{models && models.length > 0 ? models.map((model) => (
 									<a href="javascript:void(0)" key={model.uuid} className={"model-selector-grid-item " + (selectedModel?.uuid === model.uuid ? "model-selector-item-selected" : "")} onClick={() => {setSelectedModel(model); setModelSelectorOpen(false);}} onDragStart={(e) => e.preventDefault()}>
 										<span class="material-symbols-rounded">smart_toy</span>
 										{model.name}

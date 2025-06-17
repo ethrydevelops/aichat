@@ -53,6 +53,7 @@ body {
 .input-form { /* not used on navbar or chat input, // TODO: custom ones */
 	background: var(--col-body-bg);
 	border: 1px solid var(--col-emphasis-border);
+	color: var(--col-text);
 	border-radius: 3px;
 	padding-top: 12px;
 	padding-bottom: 12px;
@@ -70,7 +71,7 @@ body {
 .w-100 { width: 100%; }
 .h-100v { height: 100vh; }
 .w-100v { width: 100vw; }
-.square { aspect-ratio: 1 / 1; }
+.square { aspect-ratio: 1 / 1 !important; }
 
 .homepage-chat-container {
 	display: flex;
@@ -107,7 +108,7 @@ body {
 
 .homepage-input-text-flex, .chatpage-input-text-flex {
 	display: flex;
-	align-items: end;
+	align-items: center;
 	justify-content: center;
 	width: 100%;
 	padding: 7px;
@@ -134,19 +135,26 @@ body {
 
 .homepage-input-textarea {
     width: 100%;
+	background: var(--col-body-bg);
+	color: var(--col-text);
     resize: none;
     border: none;
     vertical-align: middle;
     padding: 0;
-    min-height: 40px;
+    min-height: 45px;
     max-height: 200px;
     font-size: 20px;
-    line-height: 40px;
+    line-height: 45px;
     display: block;
     padding-left: 10px;
     outline: none;
     border-radius: 15px;
     overflow-y: auto;
+	scrollbar-width: none;
+}
+
+.homepage-input-text-flex:has(.homepage-input-textarea:not(:placeholder-shown)) {
+	align-items: end;
 }
 
 .homepage-input-submit {
