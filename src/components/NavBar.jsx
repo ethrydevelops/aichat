@@ -85,6 +85,9 @@ export function NavBar() {
 		setChatsBeingRenamed(chatsBeingRenamedWithoutId);
 
 		toast.promise(async () => await renameChatUpdRequest(id, text),  { loading: 'Renaming chat...', success: 'Renamed successfully!', error: 'Failed to rename chat ' + id });
+
+		// reload chats
+		setTimeout(getConversations, 500);
 	}
 
 	async function renameChatUpdRequest(id, text) {
@@ -175,12 +178,12 @@ export function NavBar() {
 																data-renaming_chat_title_id={chat.uuid}
 																className="renaming-chat-title-textarea"
 																defaultValue={chat.title}
-																onChange={(e) =>
-																	renameChatUpd(chat.uuid, e.target.value.toString().trim())
-																}
 															/>
 
-															<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Rename "' + chat.title + '"'} onClick={() => {renameChat(chat.uuid)}}>
+															<button className="nav-chat-item-button-icon-btn" title="Rename" aria-label={'Rename "' + chat.title + '"'} onClick={(e) => {
+																const textarea = e.currentTarget.parentNode.querySelector(".renaming-chat-title-textarea");
+																renameChatUpd(chat.uuid, textarea.value.toString().trim());
+															}}>
 																<span className="material-symbols-rounded nav-chat-item-button-icon">
 																	save
 																</span>
