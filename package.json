@@ -7,6 +7,9 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"highlight.js": "^11.11.1",
+		"lowlight": "^2.4.0",
+		"marked-react": "^3.0.0",
 		"material-symbols": "^0.31.7",
 		"preact": "^10.25.3",
 		"preact-iso": "^2.9.2",

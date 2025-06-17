@@ -15,3 +15,8 @@
     font-style: italic;
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/GeistMono/GeistMono-VariableFont_wght.ttf') format('truetype-variations');
+}

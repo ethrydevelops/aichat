@@ -1,9 +1,38 @@
 import { useEffect, useState } from "preact/hooks";
 import io from '../Socket';
 
+import Markdown from 'marked-react';
+import hljs from 'highlight.js';
+
 export function Message({ msg, onMessageUpdate }) {
     const [thinkingBlockOpen, setThinkingBlockOpen] = useState(false);
     const [messageContent, setMessageContent] = useState(msg.content);
+
+    const renderer = {
+        code(code, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+                try {
+                    const highlighted = hljs.highlight(code, { language: lang });
+                    return (
+                        <pre>
+                            <code 
+                                className={`hljs language-${lang}`}
+                                dangerouslySetInnerHTML={{ __html: highlighted.value }}
+                            />
+                        </pre>
+                    );
+                } catch (err) {
+                    console.error('Syntax highlighting error:', err);
+                }
+            }
+
+            return (
+                <pre>
+                    <code className="hljs">{code}</code>
+                </pre>
+            );
+        }
+    };
 
     function openThinkingBlock(e) {
         e.preventDefault();
@@ -71,6 +100,13 @@ export function Message({ msg, onMessageUpdate }) {
 
         io.on("message_updated", handleMessageUpdate);
 
+        const theme = document.querySelector('body')?.dataset.colTheme === "dark" ? "dark" : "light";
+        if (theme === "dark") {
+            import('highlight.js/styles/atom-one-dark.css');
+        } else {
+            import('highlight.js/styles/atom-one-light.css');
+        }
+
         return () => {
             io.off("message_updated", handleMessageUpdate);
         };
@@ -96,13 +132,13 @@ export function Message({ msg, onMessageUpdate }) {
                                     </div>
                                 </div>
                                 <div className="chat-message-message-text-output">
-                                    {removeAllThinking(messageContent)}
+                                    <Markdown renderer={renderer} value={removeAllThinking(messageContent)} />
                                 </div>
                             </span>
                         )}
                     </>
                 ) : (
-                    messageContent
+                    <Markdown value={messageContent} />
                 )}
             </div>
         </div>

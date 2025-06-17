@@ -86,7 +86,7 @@ export function NavBar() {
 			<div className="nav-outer" data-nav-hidden={!navVisible}>
 				<nav>
 					<div className="nav-top-flex">
-						<img src="/gronk.svg" alt="" className="nav-logo" />
+						<img src="/gronk.svg" alt="" className="nav-logo" onClick={() => {location.route("/")}}/>
 						<div className="nav-icons-flex">
 							{isLoggedIn ? (
 								<button title="New Chat" aria-label="New Chat" className="nav-button nav-open-nav-button" onClick={newChat}>

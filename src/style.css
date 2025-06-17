@@ -381,3 +381,17 @@ body {
 .chat-message-message-text-output {
 	white-space: pre-wrap;
 }
+
+.chat-message-message-text-output pre:has(code) {	
+	border-radius: 10px;
+	background: var(--col-other-bg);
+	overflow-x: auto;
+}
+
+.hljs {
+	background: var(--col-other-bg) !important;
+}
+
+.chat-message-message-text-output code, .chat-message-message-text-output code * {
+    font-family: 'Geist Mono', serif, monospace;
+}
