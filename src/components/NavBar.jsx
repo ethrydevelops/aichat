@@ -9,6 +9,7 @@ export function NavBar() {
 	const location = useLocation();
 
 	const [navVisible, setNavVisible] = useState(true);
+	const [chatsBeingRenamed, setChatsBeingRenamed] = useState([]);
 	const [chats, setChats] = useState([]);
 	
 	const cookies = new Cookies(null, { path: "/" });
@@ -63,6 +64,48 @@ export function NavBar() {
 		})
 		.catch(error => {
 			console.error("Error deleting chat:", error);
+		});
+	}
+
+	function renameChat(id) {
+		if(chatsBeingRenamed.includes(id)) return;
+		setChatsBeingRenamed([...chatsBeingRenamed, id]);
+
+		setTimeout(() => {
+			const txtareaelm = document.querySelector("textarea[data-renaming_chat_title_id=\"" + id + "\"]");
+
+			txtareaelm.focus();
+			txtareaelm.setSelectionRange(txtareaelm.value.length, txtareaelm.value.length);
+		}, 30);
+	}
+
+	function renameChatUpd(id, text) {
+		// remove from chats being renamed
+		let chatsBeingRenamedWithoutId = chatsBeingRenamed.filter(item => item !== id);
+		setChatsBeingRenamed(chatsBeingRenamedWithoutId);
+
+		toast.promise(async () => await renameChatUpdRequest(id, text),  { loading: 'Renaming chat...', success: 'Renamed successfully!', error: 'Failed to rename chat ' + id });
+	}
+
+	async function renameChatUpdRequest(id, text) {
+		return await fetch(instanceUrl + "/conversations/" + id + "/rename", {
+			method: "POST",
+			headers: {
+				"Authorization": "Bearer " + authToken,
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				title: text
+			})
+		})
+		.then((r) => {
+			if (!r.ok) {
+				throw new Error(`HTTP error! status: ${r.status}`);
+			}
+			return r.json();
+		})
+		.then((data) => {
+			return true;
 		});
 	}
 
@@ -126,18 +169,49 @@ export function NavBar() {
 										chats.map(chat => (
 											<a href={`/chat/${chat.uuid}`} className={"nav-chat-item " + (url.endsWith("/chat/" + chat.uuid) ? "nav-chat-item-focused" : "")} key={chat.id}>
 												<div className="nav-chat-item-title-container">
-													<p className="m-0 p-0 nav-chat-item-button-title">
-														{chat.title || chat.uuid}
-													</p>
+													{chatsBeingRenamed.includes(chat.uuid) ? (
+														<div className="nav-chat-item-title-rename-flex">
+															<textarea
+																data-renaming_chat_title_id={chat.uuid}
+																className="renaming-chat-title-textarea"
+																defaultValue={chat.title}
+																onChange={(e) =>
+																	renameChatUpd(chat.uuid, e.target.value.toString().trim())
+																}
+															/>
+
+															<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Rename "' + chat.title + '"'} onClick={() => {renameChat(chat.uuid)}}>
+																<span className="material-symbols-rounded nav-chat-item-button-icon">
+																	save
+																</span>
+															</button>
+														</div>
+													) : (
+														<p className="m-0 p-0 nav-chat-item-button-title">
+															{chat.title || chat.uuid}
+														</p>
+													)}
 												</div>
 
 												<div className={"nav-chat-item-buttons" + (url.endsWith("/chat/" + chat.uuid) ? "" : "-d-hover")}>
-													<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Delete "' + chat.title + '"'} onClick={() => {toast.promise(deleteChatById(chat.uuid), { loading: 'Deleting chat...', success: '"' + chat.title + '" deleted successfully!', error: 'Failed to delete chat' });}}>
-														<span className="material-symbols-rounded nav-chat-item-button-icon">
-															close
-														</span>
-													</button>
-													{ /* TODO: delete, rename */ }
+													{
+														chatsBeingRenamed.includes(chat.uuid) ? null : (
+															<>
+																<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Rename "' + chat.title + '"'} onClick={() => {renameChat(chat.uuid)}}>
+																	<span className="material-symbols-rounded nav-chat-item-button-icon">
+																		edit
+																	</span>
+																</button>
+
+																<button className="nav-chat-item-button-icon-btn" title="Delete" aria-label={'Delete "' + chat.title + '"'} onClick={() => {toast.promise(deleteChatById(chat.uuid), { loading: 'Deleting chat...', success: '"' + chat.title + '" deleted successfully!', error: 'Failed to delete chat' });}}>
+																	<span className="material-symbols-rounded nav-chat-item-button-icon">
+																		close
+																	</span>
+																</button>
+															</>
+														)
+													}
+													
 												</div>
 											</a>
 										))

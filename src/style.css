@@ -395,3 +395,18 @@ body {
 .chat-message-message-text-output code, .chat-message-message-text-output code * {
     font-family: 'Geist Mono', serif, monospace;
 }
+
+.renaming-chat-title-textarea {
+	background: none;
+	border: none;
+	margin-top: auto;
+	width: 100%;
+	resize: none;
+	height: 20px;
+	white-space: nowrap;
+}
+
+.nav-chat-item-title-rename-flex {
+	display: flex;
+	align-items: center;
+}
