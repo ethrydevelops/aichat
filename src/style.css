@@ -158,6 +158,7 @@ body {
     text-align: left;
     position: relative;
 	user-select: none;
+	font-size: 16px;
 }
 
 .model-selector-button {
