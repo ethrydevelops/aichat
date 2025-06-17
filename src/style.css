@@ -298,6 +298,37 @@ body {
 	max-width: 70%;
 }
 
+.chat-message-content {
+	position: relative;
+}
+
+.chat-message-user .chat-message-model-info {
+	display: none;
+}
+
+.chat-message-model .chat-message-model-info {
+	position: absolute;
+	bottom: -1;
+	color: var(--col-text-secondary);
+
+	pointer-events: none;
+	opacity: 0.0;
+	transition: 0.3s;
+	font-size: 14px;
+
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.chat-message-model:hover .chat-message-model-info {
+	opacity: 0.5;
+}
+
+.chat-message-model .chat-message-model-info .material-symbols-rounded {
+	font-size: 20px;
+}
+
 .chat-page {
 	font-size: 20px;
 	display: grid;
