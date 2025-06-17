@@ -199,6 +199,13 @@ export function Chat({ id }) {
 
 		scrollBottom(document.querySelector(".chat-area-messages"));
 	}
+
+	function textareaKeyDown(e) {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			document.querySelector(".homepage-input-submit").click();
+		}
+	}
 	
 	return (
 		<div class="chat-page page-container h-100 m-0 p-0">
@@ -211,7 +218,7 @@ export function Chat({ id }) {
 				<div className="chat-area-input-container-inner-part">
 					<form action="/" className="chatpage-input-text-flex" onSubmit={sendMessage}>
 						<div className="homepage-input-textarea-outer">
-							<textarea name="content" rows={1} placeholder={"Talk to " + (selectedModel?.name ? selectedModel?.name : "AI")} onInput={autoResize} className="homepage-input-textarea" autoFocus={true}></textarea>
+							<textarea name="content" onKeyDown={textareaKeyDown} rows={1} placeholder={"Talk to " + (selectedModel?.name ? selectedModel?.name : "AI")} onInput={autoResize} className="homepage-input-textarea" autoFocus={true}></textarea>
 						</div>
 
 						<button type="submit" className="btn btn-primary h-100 square homepage-input-submit" title="Send Message" aria-label="Send Message" {...(selectedModel == null || submitDisabled) ? { disabled: true } : {} }>

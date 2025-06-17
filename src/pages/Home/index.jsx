@@ -131,6 +131,13 @@ export function Home() {
 
 		setModelSelectorOpen(!modelSelectorOpen);
 	}
+
+	function textareaKeyDown(e) {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			document.querySelector(".homepage-input-submit").click();
+		}
+	}
 	
 	return (
 		<div class="home page-container h-100 m-0 p-0">
@@ -140,7 +147,7 @@ export function Home() {
 
 					<form action="/" className="homepage-input-text-flex" onSubmit={createChatSend}>
 						<div className="homepage-input-textarea-outer">
-							<textarea name="content" rows={1} placeholder={theGronk} onInput={autoResize} className="homepage-input-textarea" autoFocus={true}></textarea>
+							<textarea name="content" rows={1} placeholder={theGronk} onInput={autoResize} className="homepage-input-textarea" autoFocus={true} onKeyDown={textareaKeyDown}></textarea>
 						</div>
 
 						<button type="submit" className="btn btn-primary h-100 square homepage-input-submit" title="Send Message" aria-label="Send Message" {...(selectedModel == null || submitDisabled) ? { disabled: true } : {} }>

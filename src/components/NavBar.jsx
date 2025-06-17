@@ -130,6 +130,19 @@ export function NavBar() {
 	function newChat() {
 		location.route("/");
 	}
+
+	function textareaKeyDown(e, elm) {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			elm.click();
+		}
+	}
+
+	function submitSearchForm(e) {
+		e.preventDefault();
+
+		alert("// TODO: chat search functionality")
+	}
 	
 	return (
 		<div className="nav-container">
@@ -173,10 +186,10 @@ export function NavBar() {
 						isLoggedIn ? (
 							<div className="nav-chats-list">
 								<div className="nav-chats-list-top">
-									<form className="nav-chats-list-search-flex">
-										<input type="text" className="nav-chats-list-search-input-text" placeholder="Search" />
+									<form className="nav-chats-list-search-flex" onSubmit={submitSearchForm}>
+										<input type="text" className="nav-chats-list-search-input-text" onKeyDown={(e) => textareaKeyDown(e, document.querySelector('#search-navbar-btn'))} placeholder="Search" />
 
-										<button type="submit" className="btn btn-primary h-100 nav-chats-list-search-submit square" onClick={() => {alert("// TODO: search bar functionality")}}>
+										<button type="submit" className="btn btn-primary h-100 nav-chats-list-search-submit square" id="search-navbar-btn">
 											<span class="material-symbols-rounded">
 												search
 											</span>
@@ -197,6 +210,7 @@ export function NavBar() {
 																data-renaming_chat_title_id={chat.uuid}
 																className="renaming-chat-title-textarea"
 																defaultValue={chat.title}
+																onKeyDown={(e) => textareaKeyDown(e, e.target.parentNode.children[1])}
 															/>
 
 															<button className="nav-chat-item-button-icon-btn" title="Rename" aria-label={'Rename "' + chat.title + '"'} onClick={(e) => {
