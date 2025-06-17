@@ -426,6 +426,7 @@ body {
 
 .hljs {
 	background: var(--col-other-bg) !important;
+	border-radius: 10px;
 }
 
 .chat-message-message-text-output code, .chat-message-message-text-output code * {
