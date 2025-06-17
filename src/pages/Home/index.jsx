@@ -60,13 +60,32 @@ export function Home() {
 				return;
 			}
 
-			fetch(instanceUrl + "/conversations/" + data.uuid + "/messages/", {
+
+			// create first message
+			const firstResponse = await fetch(instanceUrl + "/conversations/" + data.uuid + "/messages/", {
 				method: 'POST',
 				headers: {
 					'Authorization': 'Bearer ' + authToken,
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(toSendMsgData)
+			});
+			
+			// wait for first byte of response (to confirm that it was sent)
+			const reader = firstResponse.body?.getReader();
+			
+			if (reader) {
+				const { done, value } = await reader.read();
+				reader.cancel(); // skip rest of stream
+			}
+			
+			// generate title for the conversation
+			fetch(instanceUrl + "/conversations/" + data.uuid + "/generate-title", {
+				method: "POST",
+				headers: {
+					'Authorization': 'Bearer ' + authToken,
+					'Content-Type': 'application/json'
+				}
 			});
 				
 			location.route("/chat/" + data.uuid);

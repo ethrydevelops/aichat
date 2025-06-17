@@ -24,10 +24,12 @@ export function NavBar() {
 
         io.on("message_created", getConversations);
         io.on("message_updated", getConversations);
+		io.on("nav_chats_updated", getConversations);
 
         return () => {
             io.off("message_updated", getConversations);
             io.off("message_created", getConversations);
+            io.off("nav_chats_updated", getConversations);
         };
     }, []);
 
@@ -176,8 +178,6 @@ export function NavBar() {
 									</form>
 								</div>
 
-								{/* TODO: skeleton loader for chats */}
-
 								<div className="nav-chats-list-items">
 									{ chats.length > 0 ? ( <p className="m-0 p-0 nav-chats-list-items-caption">Your Chats</p> ) : null }
 
@@ -203,7 +203,7 @@ export function NavBar() {
 															</button>
 														</div>
 													) : (
-														<p className="m-0 p-0 nav-chat-item-button-title">
+														<p className="m-0 p-0 nav-chat-item-button-title" title={chat.title || chat.uuid} aria-label={chat.title || chat.uuid}>
 															{chat.title || chat.uuid}
 														</p>
 													)}
