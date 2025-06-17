@@ -23,7 +23,7 @@
 }
 
 :root:has(body[data-col-theme="dark"]) {
-    /* TODO: colours for dark theme */
+    /* colours for dark theme if ever done in the future */
 }
 
 body[data-col-theme="dark"] img.nav-logo, body[data-col-theme="dark"] img.login-logo {

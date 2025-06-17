@@ -108,7 +108,8 @@ export function Home() {
 		})
 		.then(response => response.json())
 		.then(data => {
-			setModels(data.models);
+			let sortedModels = data.models.sort((a, b) => a.name.localeCompare(b.name));
+			setModels(sortedModels);
 
 			if (data.last_used_model != null) {
 				setSelectedModel(data.last_used_model);
@@ -155,8 +156,6 @@ export function Home() {
 
 						<div className={"model-selector-list " + (modelSelectorOpen ? "model-selector-list-open" : "")}>
 							<h2 className="m-0 p-0">Models</h2>
-
-							{/* TODO: model search bar */}
 
 							<div className="model-selector-list-grid us-none">
 								{models && models.length > 0 ? models.map((model) => (

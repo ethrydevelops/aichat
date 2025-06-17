@@ -41,7 +41,8 @@ export function Chat({ id }) {
 		})
 		.then(response => response.json())
 		.then(data => {
-			setModels(data.models);
+			let sortedModels = data.models.sort((a, b) => a.name.localeCompare(b.name));
+			setModels(sortedModels);
 
 			if (data.last_used_model != null) {
 				setSelectedModel(data.last_used_model);

@@ -133,8 +133,6 @@ export function NavBar() {
 	
 	return (
 		<div className="nav-container">
-			{ /* TODO: should focus on message bar first */ }
-
 			<div className="secondary-nav-outer-top">
 				{ /* replaces hidden navbar */ }
 				<div className={"nav-outer-top-in-nav" + (!navVisible ? "" : " d-none")}>
@@ -142,6 +140,8 @@ export function NavBar() {
 						<span className="material-symbols-rounded nav-icon">thumbnail_bar</span>
 					</button>
 				</div>
+
+				{/* TODO: settings */}
 			</div>
 
 			<div className="nav-outer" data-nav-hidden={!navVisible}>
