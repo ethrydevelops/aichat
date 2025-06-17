@@ -118,7 +118,7 @@ export function Message({ msg, onMessageUpdate }) {
                 {msg.role === "assistant" ? (
                     <>
                         {(getThoughts(messageContent) == null || getThoughts(messageContent).trim() == "") ? (
-                            <span className="chat-message-model-text">{removeAllThinking(messageContent)}</span>
+                            <span className="chat-message-model-text"><Markdown renderer={renderer} value={removeAllThinking(messageContent)} /></span>
                         ) : (
                             <span className="chat-message-model-text">
                                 <div className="chat-message-model-thinking-placeholder">
@@ -138,7 +138,7 @@ export function Message({ msg, onMessageUpdate }) {
                         )}
                     </>
                 ) : (
-                    <Markdown value={messageContent} />
+                    messageContent
                 )}
             </div>
         </div>
