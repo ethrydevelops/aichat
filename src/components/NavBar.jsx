@@ -92,15 +92,15 @@ export function NavBar() {
 		}, 30);
 	}
 
-	function renameChatUpd(id, text) {
+	async function renameChatUpd(id, text) {
 		// remove from chats being renamed
 		let chatsBeingRenamedWithoutId = chatsBeingRenamed.filter(item => item !== id);
 		setChatsBeingRenamed(chatsBeingRenamedWithoutId);
 
-		toast.promise(async () => await renameChatUpdRequest(id, text),  { loading: 'Renaming chat...', success: 'Renamed successfully!', error: 'Failed to rename chat ' + id });
+		await toast.promise(async () => await renameChatUpdRequest(id, text),  { loading: 'Renaming chat...', success: 'Renamed successfully!', error: 'Failed to rename chat ' + id });
 
 		// reload chats
-		setTimeout(getConversations, 500);
+		getConversations();
 	}
 
 	async function renameChatUpdRequest(id, text) {
