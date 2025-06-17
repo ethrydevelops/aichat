@@ -141,7 +141,13 @@ export function NavBar() {
 					</button>
 				</div>
 
+				<div className={"nav-outer-top-in-nav-placeholder-div" + (!navVisible ? " d-none" : "")}>{/*placeholder*/}</div>
+
 				{/* TODO: settings */}
+
+				<div className="nav-outer-top-in-nav-end">
+					abc
+				</div>
 			</div>
 
 			<div className="nav-outer" data-nav-hidden={!navVisible}>

@@ -135,6 +135,15 @@ body {
     left: 30px;
     right: 30px;
     z-index: 50 !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 34px;
+    align-items: center;
+}
+
+.nav-outer-top-in-nav-placeholder-div {
+    opacity: 0.0;
+    pointer-events: none;
 }
 
 /* align toaster with actual page content */
@@ -293,4 +302,12 @@ body {
     z-index: 10000;
 
     padding-bottom: 3px !important;
+}
+
+.nav-outer-top-in-nav-end {
+    display: flex;
+    gap: 5px;
+    justify-content: end;
+    align-items: center;
+    height: 100%;
 }
