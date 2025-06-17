@@ -3,6 +3,7 @@ import { useState, useEffect } from 'preact/hooks';
 import "../nav.css";
 import { Toaster, toast } from 'react-hot-toast';
 import Cookies from 'universal-cookie';
+import io from '../components/Socket';
 
 export function NavBar() {
 	const { url } = useLocation();
@@ -17,6 +18,18 @@ export function NavBar() {
 	const instanceUrl = cookies.get("gronk_instance_url");
 	
 	const isLoggedIn = !!authToken;
+
+	useEffect(() => {
+        if (!io) return;
+
+        io.on("message_created", getConversations);
+        io.on("message_updated", getConversations);
+
+        return () => {
+            io.off("message_updated", getConversations);
+            io.off("message_created", getConversations);
+        };
+    }, []);
 
 	async function getConversations() {
 		await fetch(instanceUrl + "/conversations", {
