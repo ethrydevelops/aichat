@@ -77,6 +77,94 @@ export function Chat({ id }) {
 	}
 
 	function sendMessage(e) {
+		e.preventDefault();
+
+		const formData = new FormData(e.target);
+		const content = formData.get("content").toString().trim();
+		const model = selectedModel?.uuid;
+
+		if (!content || content.length === 0) {
+			toast.error("Message cannot be empty.");
+			return;
+		}
+
+		if (!model) {
+			toast.error("Please select a model before sending a message.");
+			return;
+		}
+
+		setSubmitDisabled(true);
+
+		const messageData = {
+			content: content,
+			model: model
+		};
+
+		// add new message to chatMessages
+		setChatMessages(prev => [...prev, { chat_uuid: id, created_at: new Date().toISOString(), completed: null, updated_at: new Date().toISOString(), role: "user", content: content }]);
+
+		setChatMessages(prev => [...prev, { chat_uuid: id, created_at: new Date().toISOString(), completed: null, updated_at: new Date().toISOString(), role: "assistant", content: "" }]);
+
+		fetch(instanceUrl + "/conversations/" + id + "/messages/", {
+			method: "POST",
+			headers: {
+				'Authorization': 'Bearer ' + authToken,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(messageData)
+		})
+		.then(response => {
+			const reader = response.body.getReader();
+			const decoder = new TextDecoder("utf-8");
+			let fullMessage = "";
+		
+			function readChunk() {
+				// TODO: this should be replaced with socket.io to sync properly between clients later
+				return reader.read().then(({ done, value }) => {
+					if (done) {
+						setSubmitDisabled(false);
+						return;
+					}
+				
+					const chunkText = decoder.decode(value, { stream: true });
+					
+					const lines = chunkText.split('\n');
+					for (const line of lines) {
+						if (line.startsWith('data: ')) {
+							try {
+								const data = JSON.parse(line.slice(6));
+								if (data.type === 'chunk' && data.content) {
+									fullMessage += data.content;
+								}
+							} catch (e) {
+								continue;
+							}
+						}
+					}
+				
+					let updatedMessages = [...chatMessages];
+					if (updatedMessages.length > 0) {
+						updatedMessages[updatedMessages.length - 1] = {
+							...updatedMessages[updatedMessages.length - 1],
+							content: fullMessage
+						};
+						setChatMessages(updatedMessages);
+					}
+				
+					scrollBottom(document.querySelector(".chat-area-messages"));
+				
+					return readChunk();
+				});
+			}
+		
+			return readChunk();
+		})
+		.catch(error => {
+			toast.error("Failed to send message");
+			console.error(error);
+			setSubmitDisabled(false);
+		});
+		
 
 	}
 
@@ -109,7 +197,17 @@ export function Chat({ id }) {
 				{/* TODO: scroll down button */}
 			</div>
 			<div className="chat-area-input-container">
-				<form action="" method="post">
+				<div className="chat-area-input-container-inner-part">
+					<form action="/" className="chatpage-input-text-flex" onSubmit={sendMessage}>
+						<div className="homepage-input-textarea-outer">
+							<textarea name="content" rows={1} placeholder={"Talk to " + (selectedModel?.name ? selectedModel?.name : "AI")} onInput={autoResize} className="homepage-input-textarea" autoFocus={true}></textarea>
+						</div>
+
+						<button type="submit" className="btn btn-primary h-100 square homepage-input-submit" title="Send Message" aria-label="Send Message" {...(selectedModel == null || submitDisabled) ? { disabled: true } : {} }>
+							<span className="material-symbols-rounded">arrow_right_alt</span>
+						</button>
+					</form>
+
 					<div className="homepage-chat-input-under">
 						<a href="javascript:void(0)" onClick={openModelList} className="model-selector-button">
 							{ selectedModel != null ? selectedModel.name : <u>Select a model!</u> }
@@ -136,7 +234,7 @@ export function Chat({ id }) {
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	);

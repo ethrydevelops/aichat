@@ -54,7 +54,7 @@ export function Message({ msg }) {
                                 <div className="chat-message-model-thinking-placeholder">
                                     <button className="chat-message-model-thinking-placeholder-box" onClick={openThinkingBlock}>
                                         <span class="material-symbols-rounded chat-message-model-thinking-placeholder-box-icon">neurology</span>
-                                        <span>Thinking...{/* TODO: get time spent */} </span>
+                                        <span>{msg.content.includes('</think>') ? "Thought for a few seconds" : "Thinking..."}{/* TODO: get an accurate count of time spent */} </span>
 
                                         <span class={"material-symbols-rounded chat-message-model-thinking-placeholder-box-icon chat-message-model-thinking-placeholder-box-opener-floating " + (thinkingBlockOpen ? "icon-spin-once" : "")}>keyboard_arrow_down</span>
                                     </button>
@@ -64,7 +64,7 @@ export function Message({ msg }) {
                                 </div>
 
                                 <div className="chat-message-message-text-output">
-                                    {removeAllThinking(msg.content)}
+                                    {removeAllThinking(msg.content)}{/* TODO: non-thinking content should be formatted with markdown. maybe there should also be a button to preview the website if its ```html? */}
                                 </div>
                             </span>
                         )}
