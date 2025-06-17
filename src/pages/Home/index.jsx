@@ -86,7 +86,17 @@ export function Home() {
 					'Authorization': 'Bearer ' + authToken,
 					'Content-Type': 'application/json'
 				}
-			});
+			})
+			.then((resp) => resp.json())
+			.then((data) => {
+				if (data.error) {
+					throw new Error(data.error);
+				}
+			})
+			.catch(error => {
+				toast.error(error);
+				console.error(error);
+			})
 				
 			location.route("/chat/" + data.uuid);
 		});
