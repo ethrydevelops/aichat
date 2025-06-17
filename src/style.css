@@ -322,7 +322,7 @@ body {
 }
 
 .chat-message-model:hover .chat-message-model-info {
-	opacity: 0.5;
+	opacity: 0.8;
 }
 
 .chat-message-model .chat-message-model-info .material-symbols-rounded {
