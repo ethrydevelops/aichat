@@ -160,7 +160,7 @@ export function Home() {
 							<div className="model-selector-list-grid us-none">
 								{models && models.length > 0 ? models.map((model) => (
 									<a href="javascript:void(0)" key={model.uuid} className={"model-selector-grid-item " + (selectedModel?.uuid === model.uuid ? "model-selector-item-selected" : "")} onClick={() => {setSelectedModel(model); setModelSelectorOpen(false);}} onDragStart={(e) => e.preventDefault()}>
-										<span class="material-symbols-rounded">smart_toy</span>
+										<span class="material-symbols-rounded symbol-ai-model">stars_2</span>
 										{model.name}
 									</a>
 								)) : (

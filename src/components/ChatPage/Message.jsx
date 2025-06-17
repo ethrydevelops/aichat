@@ -141,7 +141,7 @@ export function Message({ msg, onMessageUpdate }) {
                     messageContent
                 )}
                 <div className="chat-message-model-info">
-                    <span class="material-symbols-rounded">smart_toy</span>{msg.model_name}
+                    <span class="material-symbols-rounded symbol-ai-model">stars_2</span>{msg.model_name}
                 </div>
             </div>
         </div>

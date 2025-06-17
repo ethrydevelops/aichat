@@ -321,6 +321,11 @@ body {
 	user-select: none;
 }
 
+.symbol-ai-model {
+	font-variation-settings:
+		'FILL' 1;
+}
+
 .chat-message-model:hover .chat-message-model-info {
 	opacity: 0.8;
 }
