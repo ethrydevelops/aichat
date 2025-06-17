@@ -237,6 +237,7 @@ body {
     margin: 0;
     padding: 0;
     background: none;
+    color: var(--col-text);
     border: none;
     display: flex;
     justify-content: center;
