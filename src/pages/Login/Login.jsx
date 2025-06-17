@@ -8,7 +8,7 @@ import { InstancePicker } from "../../components/InstancePicker/InstancePicker.j
 export function Login() {
     const cookies = new Cookies(null, { path: "/" });
 
-    const [instance, setInstance] = useState("https://localhost"); // TODO: replace with actual default instance URL
+    const [instance, setInstance] = useState(__DEFAULT_INSTANCE_URL__);
 
     const location = useLocation();
 
