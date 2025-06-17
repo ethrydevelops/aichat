@@ -11,6 +11,8 @@ export function Chat({ id }) {
 	const [modelSelectorOpen, setModelSelectorOpen] = useState(false);
 	const [chatMessages, setChatMessages] = useState([]);
 
+	const { url } = useLocation();
+
 	const cookies = new Cookies(null, { path: "/" });
 	const instanceUrl = cookies.get("gronk_instance_url");
 	const authToken = cookies.get("gronk_tk");
@@ -79,13 +81,13 @@ export function Chat({ id }) {
 	}
 
 	useEffect(() => {
+		setChatMessages([]);
 		fetchModels();
-
 		
 		refreshMessages().then(() => {
 			scrollBottom(document.querySelector(".chat-area-messages"));
 		});
-	}, []);
+	}, [url]);
 
 	async function openModelList(e) {
 		e.preventDefault();
@@ -108,38 +110,34 @@ export function Chat({ id }) {
 			</div>
 			<div className="chat-area-input-container">
 				<form action="" method="post">
+					<div className="homepage-chat-input-under">
+						<a href="javascript:void(0)" onClick={openModelList} className="model-selector-button">
+							{ selectedModel != null ? selectedModel.name : <u>Select a model!</u> }
+							<span className="material-symbols-rounded">keyboard_arrow_down</span>
+						</a>
 
+						<div className={"model-selector-list " + (modelSelectorOpen ? "model-selector-list-open" : "")}>
+							<h2 className="m-0 p-0">Models</h2>
+
+							<div className="model-selector-list-grid us-none">
+								{models.length > 0 ? models.map((model) => (
+									<a href="javascript:void(0)" key={model.uuid} className={"model-selector-grid-item " + (selectedModel?.uuid === model.uuid ? "model-selector-item-selected" : "")} onClick={() => {setSelectedModel(model); setModelSelectorOpen(false);}} onDragStart={(e) => e.preventDefault()}>
+										<span class="material-symbols-rounded">smart_toy</span>
+										{model.name}
+									</a>
+								)) : (
+									null
+								)}
+
+								<a href="/settings/models" className="model-selector-grid-item" onDragStart={(e) => e.preventDefault()}>
+									<span class="material-symbols-rounded">tune</span>
+									Configure Models
+								</a>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
-
-			{/*<div className="homepage-chat-input-under">
-				<a href="javascript:void(0)" onClick={openModelList} className="model-selector-button">
-					{ selectedModel != null ? selectedModel.name : <u>Select a model!</u> }
-					<span className="material-symbols-rounded">keyboard_arrow_down</span>
-				</a>
-
-				<div className={"model-selector-list " + (modelSelectorOpen ? "model-selector-list-open" : "")}>
-					<h2 className="m-0 p-0">Models</h2>
-
-					{/* TODO: model search bar * /}
-
-					<div className="model-selector-list-grid us-none">
-						{models.length > 1 ? models.map((model) => (
-							<a href="javascript:void(0)" key={model.uuid} className={"model-selector-grid-item " + (selectedModel?.uuid === model.uuid ? "model-selector-item-selected" : "")} onClick={() => {setSelectedModel(model); setModelSelectorOpen(false);}} onDragStart={(e) => e.preventDefault()}>
-								<span class="material-symbols-rounded">smart_toy</span>
-								{model.name}
-							</a>
-						)) : (
-							null
-						)}
-
-						<a href="/settings/models" className="model-selector-grid-item" onDragStart={(e) => e.preventDefault()}>
-							<span class="material-symbols-rounded">tune</span>
-							Configure Models
-						</a>
-					</div>
-				</div>
-			</div> */}
 		</div>
 	);
 }

@@ -2,4 +2,16 @@
     .homepage-chat-inner {
         width: 90%;
     }
+    
+    .chat-message-user, .chat-message-user .chat-message-content {
+        max-width: 100%;
+        width: 100% !important;
+    }
+
+    .chat-area-input-container {
+        border-color: var(--col-emphasis-border);
+        width: calc(100% - calc(10px*2));
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }

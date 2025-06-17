@@ -152,6 +152,7 @@ body {
     width: 100%;
     text-align: left;
     position: relative;
+	user-select: none;
 }
 
 .model-selector-button {
@@ -245,11 +246,15 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
-    width: 100%;
-    padding-left: 70px;
-    padding-right: 70px;
+    width: calc(100% - calc(70px*2));
+	
+	margin-left: auto;
+	margin-right: auto;
+
     scroll-behavior: smooth;
 	scrollbar-width: none;
+
+	max-width: 900px;
 }
 
 .chat-message {
@@ -264,6 +269,8 @@ body {
 .chat-message-user {
 	display: flex;
 	justify-content: end;
+
+	white-space: pre-wrap;
 }
 
 .chat-message-user .chat-message-content {
@@ -273,6 +280,8 @@ body {
 	border-radius: 10px;
 	min-width: 170px;
 	display: inline-block;
+	
+	max-width: 70%;
 }
 
 .chat-page {
@@ -282,10 +291,17 @@ body {
 }
 
 .chat-area-input-container {
-	width: calc(100% - calc(75px*2));
-	margin-left: 70px;
-	margin-right: 70px;
-	background: green;
+	width: calc(100% - calc(70px*2));
+	margin-left: auto;
+	margin-right: auto;
+	background: var(--col-other-bg);
+	border: 1px solid var(--col-standard-border);
+	border-bottom: none;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+
+	max-width: 900px;
+	z-index: 8000;
 }
 
 .chat-message-model-thought-block {
@@ -335,10 +351,10 @@ body {
 	filter: brightness(0.95);
 }
 
-.chat-message-model-thinking-placeholder-box-icon {
-
-}
-
 .icon-spin-once {
 	rotate: 180deg;
+}
+
+.chat-message-message-text-output {
+	white-space: pre-wrap;
 }

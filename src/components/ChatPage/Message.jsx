@@ -63,7 +63,9 @@ export function Message({ msg }) {
                                     </div>
                                 </div>
 
-                                {removeAllThinking(msg.content)}
+                                <div className="chat-message-message-text-output">
+                                    {removeAllThinking(msg.content)}
+                                </div>
                             </span>
                         )}
                     </>
