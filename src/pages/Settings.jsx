@@ -14,7 +14,7 @@ export function Settings({ category }) {
     
     useEffect(() => {
         if (category) {
-            setActiveCategory(category);
+            setActiveCategory(category );
         }
     }, [category]);
 
@@ -34,30 +34,29 @@ export function Settings({ category }) {
         document.addEventListener('keydown', handleEscapeKey);
         return () => document.removeEventListener('keydown', handleEscapeKey);
     }, []);
-    
-    const categories = [
-        { id: 'account', name: 'Account' },
-        { id: 'security', name: 'Security' },
-        { id: 'models', name: 'Keys' },
-        { id: 'github', name: 'GitHub Repo' }
-    ];
 
     const renderCategoryContent = () => {
-        switch (activeCategory) {
-            case 'general':
-                return <div>General settings content</div>;
-            case 'security':
-                return <div>Models settings content</div>;
-            case 'models':
-                return <div>Account settings content</div>;
-            default:
-                return <div>Select a category</div>;
+        if(category == "general" || !category) {
+            return <div>General settings content</div>;
+        } else if(category == "models") {
+            return <div>Models settings content</div>;
+        } else if(category == "account") {
+            return <div>Account settings content</div>;
+        } else {
+            location.route("/settings/general");
+            return <div></div>;
         }
     };
 
     return (
         <div className="settings-page-overlay">
-
+            <div className="settings-page-nav">
+                nav
+            </div>
+            <div className="settings-page-content">
+                content
+                {renderCategoryContent()}
+            </div>
         </div>
     );
 }

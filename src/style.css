@@ -461,6 +461,9 @@ body {
 	animation: showsettingspage 0.3s ease-in-out;
 	outline: 1px solid var(--col-emphasis-border);
 	border-radius: 0;
+
+	display: grid;
+	grid-template-columns: 300px 1fr;
 }
 
 @keyframes showsettingspage {

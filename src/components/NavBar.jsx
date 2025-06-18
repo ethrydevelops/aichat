@@ -183,18 +183,18 @@ export function NavBar() {
 
 				<div className={"nav-outer-top-in-nav-placeholder-div" + (!navVisible ? " d-none" : "")}>{/*placeholder*/}</div>
 
-				{/* TODO: settings */}
-
-				<div className="nav-outer-top-in-nav-end">
-					<a href="/settings" className="nav-settings-btn">
-						<i className="material-symbols-rounded">
-							settings
-						</i>
-					</a>
-					<a href="/settings" className="nav-end-avatar-img-outer">
-						<img src={instanceUrl + "/accounts/" + avtUuid + "/avatar.png"} alt="" className="nav-end-avatar-img" aria-hidden="true" />
-					</a>
-				</div>
+				{isLoggedIn ? (
+					<div className="nav-outer-top-in-nav-end">
+						<a href="/settings" className="nav-settings-btn">
+							<i className="material-symbols-rounded">
+								settings
+							</i>
+						</a>
+						<a href="/settings" className="nav-end-avatar-img-outer">
+							<img src={instanceUrl + "/accounts/" + avtUuid + "/avatar.png"} alt="" className="nav-end-avatar-img" aria-hidden="true" />
+						</a>
+					</div>
+				) : null}
 			</div>
 
 			<div className="nav-outer" data-nav-hidden={!navVisible}>
@@ -292,11 +292,6 @@ export function NavBar() {
 					}
 				</nav>
 			</div>
-
-			<Toaster
-				position="top-center"
-				reverseOrder={false}
-			/>
 		</div>
 	);
 }

@@ -22,6 +22,7 @@ import { Logout } from './pages/Login/Logout.jsx';
 import { Register } from './pages/Login/Register.jsx';
 import { Chat } from './pages/Chats/Chat.jsx';
 import { Settings } from './pages/Settings.jsx';
+import { Toaster } from 'react-hot-toast';
 
 export function App() {
 	return (
@@ -53,6 +54,11 @@ export function App() {
 					<Route default component={NotFound} />
 				</Router>
 			</main>
+
+			<Toaster
+				position="top-center"
+				reverseOrder={false}
+			/>
 		</LocationProvider>
 	);
 }
