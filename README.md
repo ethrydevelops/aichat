@@ -37,7 +37,9 @@ $ git clone https://github.com/ethrydevelops/gronk
 $ npm i
 ```
 
-3. run it:
+3. copy `COPY-TO.env` to `.env` and edit the values to your needs.
+
+4. run the webapp:
 ```sh
 # you can run a development server with vite:
 $ npm run dev
@@ -48,7 +50,7 @@ $ npm run build
 # ...
 ```
 
-4. **it's now running, congrats!** you can create an account on a chosen instance on the newly hosted site and get started. once you've created your account, you can add your chosen models by clicking "Settings" (top-right) -> "Models".
+5. **it's now running, congrats!** you can create an account on a chosen instance on the newly hosted site and get started. once you've created your account, you can add your chosen models by clicking "Settings" (top-right) -> "Models".
 
 ## hosted instance
 
