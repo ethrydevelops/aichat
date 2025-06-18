@@ -150,6 +150,10 @@ export function Chat({ id }) {
 						scrollBottom(document.querySelector(".chat-area-messages"));
 					});
 				}
+
+				if(data.role == "error") {
+					setSubmitDisabled(false);
+				}
 			}
 		};
 		
