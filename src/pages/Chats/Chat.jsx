@@ -168,15 +168,26 @@ export function Chat({ id }) {
 		const handleMessageCompleted = () => {
 			setSubmitDisabled(false);
 		};
+
+		const handleMessageErrorStart = (data) => {
+			if(data.chat != id) return;
+			console.log(data);
+			
+			setChatMessages([...chatMessages, data]);
+		}
 	
 		io.on("message_created", handleMessageCreated);
 		io.on("message_updated", handleMessageUpdated);
 		io.on("message_completed", handleMessageCompleted);
+
+		io.on("message_error", handleMessageCreated);
 	
 		return () => {
 			io.off("message_created", handleMessageCreated);
 			io.off("message_updated", handleMessageUpdated);
 			io.off("message_completed", handleMessageCompleted);
+
+			io.off("message_error", handleMessageCreated);
 		};
 	}, [url]);
 

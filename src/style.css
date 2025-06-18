@@ -746,3 +746,19 @@ body {
 .nav-chats-list-search-clear:hover {
 	color: var(--col-text-secondary-emphasis);
 }
+
+.error-alert-div {
+	color: #dc3545;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 1px solid rgba(220, 53, 70, 0.3);
+	border-radius: 5px;
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.chat-message-content:has(.error-alert-div) .chat-message-model-info {
+	margin-top: 5px;
+}

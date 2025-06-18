@@ -113,12 +113,23 @@ export function Message({ msg, onMessageUpdate }) {
     }, [msg.uuid]);
 
     return (
-        <div key={msg.uuid} className={"chat-message " + (msg.role === "assistant" ? "chat-message-model" : "chat-message-user")}>
+        <div key={msg.uuid} className={"chat-message " + ((msg.role === "assistant" || msg.role === "error") ? "chat-message-model" : "chat-message-user")}>
             <div className="chat-message-content">
-                {msg.role === "assistant" ? (
+                {(msg.role === "assistant" || msg.role === "error") ? (
                     <>
                         {(getThoughts(messageContent) == null || getThoughts(messageContent).trim() == "") ? (
-                            <span className="chat-message-model-text"><Markdown renderer={renderer} value={removeAllThinking(messageContent)} /></span>
+                            <span className="chat-message-model-text">
+                                {msg.role === "error" ? (
+                                        <div className="error-alert-div">
+                                            <span class="material-symbols-rounded">
+                                                error
+                                            </span>
+                                            <span>{messageContent}</span>
+                                        </div>
+                                    ) : (
+                                    <Markdown renderer={renderer} value={removeAllThinking(messageContent)} />
+                                )}
+                            </span>
                         ) : (
                             <span className="chat-message-model-text">
                                 <div className="chat-message-model-thinking-placeholder">
