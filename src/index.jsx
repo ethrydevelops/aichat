@@ -21,6 +21,7 @@ import { Login } from './pages/Login/Login.jsx';
 import { Logout } from './pages/Login/Logout.jsx';
 import { Register } from './pages/Login/Register.jsx';
 import { Chat } from './pages/Chats/Chat.jsx';
+import { Settings } from './pages/Settings.jsx';
 
 export function App() {
 	return (
@@ -43,6 +44,11 @@ export function App() {
 								props.id
 							}></Chat>
 						</ProtectedRoute>} />
+
+					<Route path="/settings" component={(props) => (
+						<ProtectedRoute><Settings category={undefined}></Settings></ProtectedRoute>)} />
+					<Route path="/settings/:category" component={(props) => 
+						<ProtectedRoute><Settings category={props.category}></Settings></ProtectedRoute>} />
 
 					<Route default component={NotFound} />
 				</Router>

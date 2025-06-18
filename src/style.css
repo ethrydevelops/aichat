@@ -447,3 +447,33 @@ body {
 	display: flex;
 	align-items: center;
 }
+
+.settings-page-overlay {
+	background: var(--col-other-bg);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 11000;
+	opacity: 1.0;
+	transition: 0.3s;
+	animation: showsettingspage 0.3s ease-in-out;
+	outline: 1px solid var(--col-emphasis-border);
+	border-radius: 0;
+}
+
+@keyframes showsettingspage {
+	from {
+		opacity: 0.0;
+		transform: translateY(60%);
+		border-top-left-radius: 30px;
+		border-top-right-radius: 30px;
+	}
+	to {
+		opacity: 1.0;
+		transform: translateY(0px);
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+}
