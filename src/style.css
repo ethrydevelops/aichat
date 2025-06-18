@@ -611,7 +611,7 @@ body {
 .settings-page-content {
 	padding-left: 10px;
 	padding-right: 10px;
-	padding-bottom: 10px;
+	padding-bottom: 50px;
 	max-height: 100%;
 	overflow-y: auto;
 }
@@ -690,4 +690,49 @@ body {
 	border: 1px solid var(--col-standard-border);
 	transition: 0.3s;
 	cursor: pointer;
+}
+
+.d-flex-small-form {
+	display: flex;
+	gap: 5px;
+}
+
+.d-flex-small-form .btn-wide {
+	height: 45px;
+	width: 100px;
+}
+
+.d-flex-small-form .input-form {
+	width: 100%;
+}
+
+.title-generation-model-title {
+	margin-top: 5px !important;
+	margin-bottom: 3px !important;
+	display: block;
+}
+
+.tip-message {
+	padding-left: 7px;
+	border-left: 3px solid #187e31;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.tip-message .top-message-tip {
+	color: #187e31;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	user-select: none;
+}
+
+.tip-message .top-message-tip .material-symbols-rounded {
+	font-size: 20px;
 }

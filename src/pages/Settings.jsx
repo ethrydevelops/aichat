@@ -12,6 +12,7 @@ export function Settings({ category }) {
     const instanceUrl = cookies.get("gronk_instance_url");
 
     const [models, setModels] = useState([]);
+    const [titleModel, setTitleModel] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -72,6 +73,7 @@ export function Settings({ category }) {
                 models.sort((a, b) => b.usage_count - a.usage_count); // sort by most messages -> least
             }
 
+            setTitleModel(data.titles?.uuid || null);
             setModels(data.models || []);
         } catch (err) {
             setError(err.message);
@@ -205,6 +207,39 @@ export function Settings({ category }) {
         });
     }
 
+    function setTitleGenerationModel(e) {
+        e.preventDefault();
+        const formdata = new FormData(e.target);
+        const titleGenerationModel = formdata.get("title_generation_model").toString().trim();
+
+        if (!titleGenerationModel && titleGenerationModel !== "") {
+            toast.error("Please select a model for title generation.");
+            return;
+        }
+
+        fetch(`${instanceUrl}/models/title`, {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + authToken,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ modelUuid: (titleGenerationModel == "" ? null : titleGenerationModel) })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to set title generation model");
+            }
+            return response.json();
+        })
+        .then(data => {
+            toast.success("Title generation model set successfully!");
+        })
+        .catch(error => {
+            console.error("Error setting title generation model:", error);
+            toast.error("Failed to set title generation model: " + error.message);
+        });
+    }
+
     const renderCategoryContent = () => {
         if(category == "general" || !category) {
             return <div>
@@ -329,6 +364,32 @@ export function Settings({ category }) {
                         </tbody>
                     </table>
                 </div>
+
+                <h2 className="mb-0">Titles</h2>
+                <p>Choose a model for chat title generation.</p>
+
+                <div className="tip-message">
+                    <p className="top-message-tip"><span class="material-symbols-rounded">lightbulb</span> TIP:</p>
+                    <p>It's probably best to use a free or cheap model if you don't want to rack up huge fees, but also, try not to use a dumb model like Gemma. During testing, I've had good, fast, and accurate results with Llama-2:7B and Gemini 2.0 Flash-Lite.</p>
+                </div>
+
+                <form action="/" method="POST" onSubmit={setTitleGenerationModel}>
+                    <div>
+                        <div>
+                            <label htmlFor="title_generation_model" className="us-none title-generation-model-title">Title generation model:</label>
+
+                            <div className="d-flex-small-form">
+                                <select name="title_generation_model" id="title_generation_model" className="input-form">
+                                    <option value="" selected={titleModel == null}>None</option>
+                                    {models.map((model) => (
+                                        <option value={model.uuid} key={model.uuid} selected={titleModel == model.uuid}>{model.name}</option>
+                                    ))}
+                                </select>
+                                <button type="submit" className="btn btn-primary btn-wide">Set</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>);
         } else {
             location.route("/settings/general");
