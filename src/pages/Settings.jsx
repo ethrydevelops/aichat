@@ -46,7 +46,7 @@ export function Settings({ category }) {
             const ipResponse = await fetch("https://api.ipify.org");
             const ip = await ipResponse.text();
 
-            document.getElementById("model_url").value = "http://"+ip+":11434/api/chat/completions";
+            document.getElementById("model_url").value = "http://"+ip+":11434/api/chat";
             document.getElementById("authorization").value = "";
         }
     }
