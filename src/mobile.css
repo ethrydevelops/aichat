@@ -14,4 +14,12 @@
         margin-left: 10px;
         margin-right: 10px;
     }
+    
+    body:has(.nav-outer[data-nav-hidden="false"]) .nav-outer-top-in-nav-end {
+        display: none;
+    }
+
+    .settings-page-nav[data-settingsnav-hidden="false"] > .settings-page-content {
+        display: none;
+    }
 }

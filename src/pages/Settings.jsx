@@ -48,10 +48,23 @@ export function Settings({ category }) {
         }
     };
 
+    function handleCloseNavbarClickSettings(e) {
+        alert("TODO");
+    }
+
     return (
         <div className="settings-page-overlay">
-            <div className="settings-page-nav">
-                nav
+            <div className="settings-page-nav" data-settingsnav-hidden="false">
+                <div className="settings-nav-flex">
+                    <button className="settings-page-back-btn" onClick={handleBackBtnClick}>
+                        <span className="material-symbols-rounded">arrow_back</span>
+                        Back
+                    </button>
+                    
+                    <button className="settings-page-back-btn" onClick={handleCloseNavbarClickSettings}>
+                        <span className="material-symbols-rounded">close</span>
+                    </button>
+                </div>
             </div>
             <div className="settings-page-content">
                 content

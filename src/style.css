@@ -463,7 +463,7 @@ body {
 	border-radius: 0;
 
 	display: grid;
-	grid-template-columns: 300px 1fr;
+	grid-template-columns: var(--nav-width) 1fr;
 }
 
 @keyframes showsettingspage {
@@ -479,4 +479,36 @@ body {
 		border-top-left-radius: 0px;
 		border-top-right-radius: 0px;
 	}
+}
+
+.settings-page-back-btn, .settings-page-btn {
+	width: 100%;
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: none;
+	background: none;
+	border-radius: 10px;
+	color: var(--col-text-secondary-emphasis);
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.settings-page-back-btn:hover {
+	color: var(--col-text);
+}
+
+.settings-page-nav {
+	padding: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.settings-nav-flex {
+	display: grid; /* TODO: ... */
+	grid-template-columns: 1fr 40px;
+	gap: 5px;
 }

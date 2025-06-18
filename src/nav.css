@@ -310,6 +310,7 @@ body {
     justify-content: end;
     align-items: center;
     height: 100%;
+    z-index: 9990;
 }
 
 .nav-end-avatar-img {
