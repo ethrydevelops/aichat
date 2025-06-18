@@ -22,4 +22,20 @@
     .settings-page-nav[data-settingsnav-hidden="false"] > .settings-page-content {
         display: none;
     }
+
+    .settings-page-nav[data-settingsnav-hidden="true"] {
+        display: none;
+    }
+
+    .settings-page-mobile-close-btn {
+        display: flex;
+    }
+
+    .settings-opener { /* actually settings NAV opener oops */
+	    display: flex;
+    }
+
+    body:has(.settings-page-nav[data-settingsnav-hidden="false"]) .settings-opener {
+        display: none;
+    }
 }

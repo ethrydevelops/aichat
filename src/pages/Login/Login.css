@@ -75,6 +75,9 @@
 
     display: flex;
     gap: 3px;
+}
+
+.login-form-instance-info-w:not(.login-form-instance-info-w-left) {
     align-items: center;
     word-wrap: break-word;
     justify-content: center;
@@ -108,4 +111,21 @@
     grid-template-columns: 1fr 44.8px;
     gap: 3px;
     overflow: hidden;
+}
+
+.model-table-td-flex {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.delete-text-btn {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    text-decoration: none;
+}
+
+.model-table-td-flex .material-symbols-rounded {
+    font-size: 20px;
 }
