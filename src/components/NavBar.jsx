@@ -12,6 +12,8 @@ export function NavBar() {
 	const [navVisible, setNavVisible] = useState(true);
 	const [chatsBeingRenamed, setChatsBeingRenamed] = useState([]);
 	const [chats, setChats] = useState([]);
+	const [filteredChats, setFilteredChats] = useState([]);
+	const [searchQuery, setSearchQuery] = useState('');
 	const [avtUuid, setAvtUuid] = useState(null);
 	
 	const cookies = new Cookies(null, { path: "/" });
@@ -76,7 +78,25 @@ export function NavBar() {
 		})
 		.then(data => {
 			setChats(data.conversations);
+			// Update filtered chats when conversations are fetched
+			if (searchQuery.trim() === '') {
+				setFilteredChats(data.conversations);
+			} else {
+				filterChats(data.conversations, searchQuery);
+			}
 		})
+	}
+
+	function filterChats(chatList, query) {
+		if (query.trim() === '') {
+			setFilteredChats(chatList);
+			return;
+		}
+		
+		const filtered = chatList.filter(chat => 
+			(chat.title || chat.uuid).toLowerCase().includes(query.toLowerCase())
+		);
+		setFilteredChats(filtered);
 	}
 
 	useEffect(() => {
@@ -167,8 +187,16 @@ export function NavBar() {
 
 	function submitSearchForm(e) {
 		e.preventDefault();
+		const searchInput = e.target.querySelector('.nav-chats-list-search-input-text');
+		const query = searchInput.value.trim();
+		setSearchQuery(query);
+		filterChats(chats, query);
+	}
 
-		alert("// TODO: chat search functionality")
+	function clearSearch() {
+		setSearchQuery('');
+		setFilteredChats(chats);
+		document.querySelector('.nav-chats-list-search-input-text').value = '';
 	}
 	
 	return (
@@ -221,21 +249,52 @@ export function NavBar() {
 							<div className="nav-chats-list">
 								<div className="nav-chats-list-top">
 									<form className="nav-chats-list-search-flex" onSubmit={submitSearchForm}>
-										<input type="text" className="nav-chats-list-search-input-text" onKeyDown={(e) => textareaKeyDown(e, document.querySelector('#search-navbar-btn'))} placeholder="Search" />
+											<input 
+												type="text" 
+												className="nav-chats-list-search-input-text" 
+												onKeyDown={(e) => textareaKeyDown(e, document.querySelector('#search-navbar-btn'))} 
+												placeholder="Search chats..." 
+												onChange={(e) => {
+													const query = e.target.value;
+													setSearchQuery(query);
+													filterChats(chats, query);
+												}}
+											/>
 
-										<button type="submit" className="btn btn-primary h-100 nav-chats-list-search-submit square" id="search-navbar-btn">
-											<span class="material-symbols-rounded">
-												search
-											</span>
-										</button>
+											{searchQuery ? (
+												<button 
+													type="button" 
+													className="btn h-100 nav-chats-list-search-clear square" 
+													onClick={clearSearch}
+													title="Clear search"
+												>
+													<span className="material-symbols-rounded">
+														close
+													</span>
+												</button>
+											) : null}
+
+											<button type="submit" className="btn btn-primary h-100 nav-chats-list-search-submit square" id="search-navbar-btn">
+												<span className="material-symbols-rounded">
+													search
+												</span>
+											</button>
 									</form>
 								</div>
 
 								<div className="nav-chats-list-items">
-									{ chats.length > 0 ? ( <p className="m-0 p-0 nav-chats-list-items-caption">Your Chats</p> ) : null }
+									{ filteredChats.length > 0 ? ( 
+										<p className="m-0 p-0 nav-chats-list-items-caption">
+											{searchQuery ? `Search Results (${filteredChats.length})` : 'Your Chats'}
+										</p> 
+									) : null }
 
-									{ chats.length > 0 ? (
-										chats.map(chat => (
+									{ searchQuery && filteredChats.length === 0 ? (
+										<p className="m-0 p-2 text-muted">No chats found for "{searchQuery}"</p>
+									) : null }
+
+									{ filteredChats.length > 0 ? (
+										filteredChats.map(chat => (
 											<a href={`/chat/${chat.uuid}`} className={"nav-chat-item " + (url.endsWith("/chat/" + chat.uuid) ? "nav-chat-item-focused" : "")} key={chat.id}>
 												<div className="nav-chat-item-title-container">
 													{chatsBeingRenamed.includes(chat.uuid) ? (

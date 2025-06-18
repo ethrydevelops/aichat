@@ -736,3 +736,13 @@ body {
 .tip-message .top-message-tip .material-symbols-rounded {
 	font-size: 20px;
 }
+
+.nav-chats-list-search-clear {
+	background: none;
+	cursor: pointer;
+	color: var(--col-text-secondary);
+}
+
+.nav-chats-list-search-clear:hover {
+	color: var(--col-text-secondary-emphasis);
+}
