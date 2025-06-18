@@ -23,7 +23,7 @@ gronk is [licensed under MIT](./LICENSE), so you can do basically anything with 
 ### prerequisites
 to run this app, you must have:
 * nodejs (either lts or latest)
-* a chosen backend server ([software is available here](https://github.com/ethrydevelops/gronk-backend))
+* a chosen, trusted backend server (you can also <ins>host your own</ins>: [software is available here](https://github.com/ethrydevelops/gronk-backend))
 
 ### instructions
 
