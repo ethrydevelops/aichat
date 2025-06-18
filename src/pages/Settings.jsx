@@ -328,7 +328,7 @@ export function Settings({ category }) {
                                     <td>
                                         <div className="model-table-td-flex">
                                             {model.model}
-                                            <a href="javascript:void();" className="delete-text-btn" onClick={() => {editModelInfo(window.prompt("Change model URL:", model.model), 'model', model.uuid);}} title="Edit model" aria-label="Edit model">
+                                            <a href="javascript:void();" className="delete-text-btn" onClick={() => {editModelInfo(window.prompt("Change model `model` parameter:", model.model), 'model', model.uuid);}} title="Edit model" aria-label="Edit model">
                                                 <span className="material-symbols-rounded">edit</span>
                                             </a>
                                         </div>
@@ -346,7 +346,7 @@ export function Settings({ category }) {
                                     <td>
                                         <div className="model-table-td-flex">
                                             {model.authorization ? '••••' : 'None'}
-                                            <a href="javascript:void();" className="delete-text-btn" onClick={() => {editModelInfo(window.prompt("Change model API key:"), 'authorization', model.uuid);}} title="Edit model API key" aria-label="Edit model API key">
+                                            <a href="javascript:void();" className="delete-text-btn" onClick={() => {editModelInfo(window.prompt("Change model API key:\n\n(Example: \"Bearer sk-or-v1-abc123\", or leave blank for none)"), 'authorization', model.uuid);}} title="Edit model API key" aria-label="Edit model API key">
                                                 <span className="material-symbols-rounded">edit</span>
                                             </a>
                                         </div>
