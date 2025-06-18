@@ -12,6 +12,7 @@ export function NavBar() {
 	const [navVisible, setNavVisible] = useState(true);
 	const [chatsBeingRenamed, setChatsBeingRenamed] = useState([]);
 	const [chats, setChats] = useState([]);
+	const [avtUuid, setAvtUuid] = useState(null);
 	
 	const cookies = new Cookies(null, { path: "/" });
 	const authToken = cookies.get("gronk_tk");
@@ -20,6 +21,10 @@ export function NavBar() {
 	const isLoggedIn = !!authToken;
 
 	useEffect(() => {
+		getSetAvatarUuid();
+
+		// socket io
+
         if (!io) return;
 
         io.on("message_created", getConversations);
@@ -32,6 +37,28 @@ export function NavBar() {
             io.off("nav_chats_updated", getConversations);
         };
     }, []);
+
+	async function getSetAvatarUuid() {
+		fetch(instanceUrl + "/accounts/me", {
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + authToken,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(response => {
+			if(!response.ok) throw new Error("Failed to fetch user info")
+			return response.json();
+		})
+		.then((data) => {
+			if(data.uuid) {
+				setAvtUuid(data.uuid);
+			}
+		})
+		.catch(err => {
+			toast.error(err);
+		})
+	}
 
 	async function getConversations() {
 		await fetch(instanceUrl + "/conversations", {
@@ -159,7 +186,14 @@ export function NavBar() {
 				{/* TODO: settings */}
 
 				<div className="nav-outer-top-in-nav-end">
-					abc
+					<a href="/settings" className="nav-settings-btn">
+						<i className="material-symbols-rounded">
+							settings
+						</i>
+					</a>
+					<a href="/settings" className="nav-end-avatar-img-outer">
+						<img src={instanceUrl + "/accounts/" + avtUuid + "/avatar.png"} alt="" className="nav-end-avatar-img" aria-hidden="true" />
+					</a>
 				</div>
 			</div>
 

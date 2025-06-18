@@ -311,3 +311,38 @@ body {
     align-items: center;
     height: 100%;
 }
+
+.nav-end-avatar-img {
+    height: 38px;
+    width: 38px;
+    object-fit: cover;
+    overflow: hidden;
+    background: var(--col-body-bg);    
+}
+
+.nav-end-avatar-img-outer {
+    height: 38px;
+    width: 38px;
+    border-radius: 32px !important;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+}
+
+.nav-settings-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;  
+    color: var(--col-text-secondary);
+    transition: 0.3s;
+    cursor: pointer; 
+}
+
+.nav-settings-btn .material-symbols-rounded {
+    font-size: 22px;
+}
+
+.nav-settings-btn:hover {
+    color: var(--col-text-secondary-emphasis);
+}
