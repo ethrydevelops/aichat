@@ -108,7 +108,7 @@ export function Home() {
 		e.target.style.height = newHeight + 'px';
 	}
 
-	async function fetchModels() {
+	async function fetchModels(resetModel = true) {
 		await fetch(instanceUrl + "/models/", {
 			method: 'GET',
 			headers: {
@@ -121,7 +121,7 @@ export function Home() {
 			let sortedModels = data.models.sort((a, b) => a.name.localeCompare(b.name));
 			setModels(sortedModels);
 
-			if (data.last_used_model != null) {
+			if (data.last_used_model != null && resetModel) {
 				setSelectedModel(data.last_used_model);
 			}
 		})
@@ -136,7 +136,7 @@ export function Home() {
 		e.preventDefault();
 
 		if(!modelSelectorOpen) {
-			fetchModels();
+			fetchModels(false);
 		}
 
 		setModelSelectorOpen(!modelSelectorOpen);
