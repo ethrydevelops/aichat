@@ -39,6 +39,23 @@
     color: white;
 }
 
+.btn-light {
+	background: rgba(var(--col-other-bg-rgb), 0.5);
+	backdrop-filter: blur(5px);
+	padding-left: 15px;
+	padding-right: 15px;
+	color: var(--col-body);
+	transition: 0.3s;
+	cursor: pointer;
+	border-radius: 10px;
+	border: 1px solid var(--col-standard-border);
+}
+
+.btn-light:hover {
+	background: rgba(var(--col-other-bg-rgb), 0.9);
+	border: 1px solid var(--col-emphasis-border);
+}
+
 .btn .material-symbols-rounded {
     font-variation-settings:
         'FILL' 1;

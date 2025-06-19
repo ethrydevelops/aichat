@@ -359,6 +359,8 @@ body {
 	align-items: center;
 	justify-content: center;
 
+	position: relative;
+
 	max-width: 900px;
 	z-index: 8000;
 }
@@ -761,4 +763,20 @@ body {
 
 .chat-message-content:has(.error-alert-div) .chat-message-model-info {
 	margin-top: 5px;
+}
+
+.chat-area-input-container-floating-flex-autoscroll-opts {
+	position: absolute;
+	top: -45px;
+}
+
+.floating-btn-autoscroll-opt {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+
+.floating-btn-autoscroll-opt:hover {
+	box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
 }

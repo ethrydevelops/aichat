@@ -11,6 +11,8 @@ export function Chat({ id }) {
 	const [submitDisabled, setSubmitDisabled] = useState(false);
 	const [modelSelectorOpen, setModelSelectorOpen] = useState(false);
 	const [chatMessages, setChatMessages] = useState([]);
+	const [toggleScrolling, setToggleScrolling] = useState(true);
+	const [setToggleScrollingShown, setSetToggleScrollingShown] = useState(false);
 
 	const { url } = useLocation();
 
@@ -143,13 +145,16 @@ export function Chat({ id }) {
 	
 		const handleMessageCreated = (data) => {
 			if (data.chat_uuid === id) {
-				const messageExists = chatMessages.some(msg => msg.uuid === data.uuid);
-				
-				if (!messageExists) {
-					refreshMessages().then(() => {
-						scrollBottom(document.querySelector(".chat-area-messages"));
-					});
-				}
+				setChatMessages(currentMessages => {
+					const messageExists = currentMessages.some(msg => msg.uuid === data.uuid);
+					
+					if (!messageExists) {
+						refreshMessages().then(() => {
+							if(toggleScrolling) scrollBottom(document.querySelector(".chat-area-messages"));
+						});
+					}
+					return currentMessages;
+				});
 
 				if(data.role == "error") {
 					setSubmitDisabled(false);
@@ -159,17 +164,23 @@ export function Chat({ id }) {
 		
 		const handleMessageUpdated = (data) => {
 			if (data.chat_uuid === id) {
-				const messageExists = chatMessages.some(msg => msg.uuid === data.uuid);
-				
-				if (!messageExists) {
-					refreshMessages().then(() => {
-						scrollBottom(document.querySelector(".chat-area-messages"));
-					});
-				}
+				setSetToggleScrollingShown(true);
+
+				setChatMessages(currentMessages => {
+					const messageExists = currentMessages.some(msg => msg.uuid === data.uuid);
+					
+					if (!messageExists) {
+						refreshMessages().then(() => {
+							if(toggleScrolling) scrollBottom(document.querySelector(".chat-area-messages"));
+						});
+					}
+					return currentMessages;
+				});
 			}
 		};
 	
 		const handleMessageCompleted = () => {
+			setSetToggleScrollingShown(false);
 			setSubmitDisabled(false);
 		};
 
@@ -177,7 +188,7 @@ export function Chat({ id }) {
 			if(data.chat != id) return;
 			console.log(data);
 			
-			setChatMessages([...chatMessages, data]);
+			setChatMessages(currentMessages => [...currentMessages, data]);
 		}
 	
 		io.on("message_created", handleMessageCreated);
@@ -193,7 +204,7 @@ export function Chat({ id }) {
 
 			io.off("message_error", handleMessageCreated);
 		};
-	}, [url]);
+	}, [url, id, toggleScrolling]);
 
 	async function openModelList(e) {
 		e.preventDefault();
@@ -212,7 +223,7 @@ export function Chat({ id }) {
 			)
 		);
 
-		scrollBottom(document.querySelector(".chat-area-messages"));
+		if(toggleScrolling) scrollBottom(document.querySelector(".chat-area-messages"));
 	}
 
 	function textareaKeyDown(e) {
@@ -230,6 +241,15 @@ export function Chat({ id }) {
 				))}
 			</div>
 			<div className="chat-area-input-container">
+				<div className="chat-area-input-container-floating-flex-autoscroll-opts">
+					<button onClick={() => setToggleScrolling(!toggleScrolling)} className={"btn btn-light floating-btn-autoscroll-opt " + (setToggleScrollingShown ? "" : "d-none-important")}>
+						<span class="material-symbols-rounded">
+							arrow_cool_down
+						</span>
+						{toggleScrolling ? "Disable" : "Enable"} Autoscroll
+					</button>
+				</div>
+
 				<div className="chat-area-input-container-inner-part">
 					<form action="/" className="chatpage-input-text-flex" onSubmit={sendMessage}>
 						<div className="homepage-input-textarea-outer">
