@@ -1,7 +1,5 @@
 # gronk monorepo
-frontend for gronk (my submission for the 2025 t3.chat cloneathon)
-
-> you'll need a [compatible backend server](https://github.com/ethrydevelops/gronk-backend)
+gronk ai chat, my submission for the 2025 t3.chat cloneathon
 
 ## what is gronk?
 gronk is a basic(?) frontend for your chosen llms, kinda like chatgpt but worse.
