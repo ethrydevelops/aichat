@@ -1,4 +1,4 @@
-# gronk
+# gronk monorepo
 frontend for gronk (my submission for the 2025 t3.chat cloneathon)
 
 > you'll need a [compatible backend server](https://github.com/ethrydevelops/gronk-backend)
@@ -23,13 +23,14 @@ gronk is [licensed under MIT](./LICENSE), so you can do basically anything with 
 ### prerequisites
 to run this app, you must have:
 * nodejs (either lts or latest)
-* a chosen, trusted backend server (you can also <ins>host your own</ins>: [software is available here](https://github.com/ethrydevelops/gronk-backend))
+* the backend server (./backend in this monorepo)
 
 ### instructions
 
 1. clone this repo:
 ```sh
 $ git clone https://github.com/ethrydevelops/gronk
+$ cd ./gronk/web/
 ```
 
 2. install everything:
