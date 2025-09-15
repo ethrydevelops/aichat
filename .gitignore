@@ -149,3 +149,5 @@ dist-ssr/
 *.njsproj
 *.sln
 *.sw?
+
+knexfile.js
