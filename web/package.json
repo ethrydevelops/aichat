@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/react-router": "^1.10.0",
     "@material-symbols/font-700": "^0.35.2",
     "bootstrap": "^5.3.8",
     "react": "^19.1.1",

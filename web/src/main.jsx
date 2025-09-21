@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router";
-import { ClerkProvider } from '@clerk/clerk-react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,22 +19,16 @@ if (!PUBLISHABLE_KEY) {
 }
 
 createRoot(document.getElementById('root')).render(
-    <ClerkProvider
-        publishableKey={PUBLISHABLE_KEY}
-        signUpFallbackRedirectUrl="/"
-        signInFallbackRedirectUrl="/"
-    >
-        <BrowserRouter>
-            <div className="app-container">
-                <NavBar />
-                <main className="app-screen">
-                    <Routes>
-                        <Route path="/" element={<App />} />
-                        <Route path="/signup" element={<AuthPage authType="signup" />} />
-                        <Route path="/login" element={<AuthPage authType="login" />} />
-                    </Routes>
-                </main>
-            </div>
-        </BrowserRouter>
-    </ClerkProvider>
+    <BrowserRouter>
+        <div className="app-container">
+            <NavBar />
+            <main className="app-screen">
+                <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/signup" element={<AuthPage authType="signup" />} />
+                    <Route path="/login" element={<AuthPage authType="login" />} />
+                </Routes>
+            </main>
+        </div>
+    </BrowserRouter>
 )

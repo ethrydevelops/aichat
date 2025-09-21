@@ -1,14 +1,12 @@
-import { SignIn, SignUp } from '@clerk/clerk-react'
-
 function AuthPage({ authType }) {
     return (
         <>
             <div className="full-center-blur-behind"></div>
             <div className="full-center">
                 {authType == "login" ? (
-                    <SignIn signUpUrl="/signup"></SignIn>
+                    <h1>sign in page</h1>
                 ) : (
-                    <SignUp signInUrl="/login"></SignUp>
+                    <h1>Sign up page</h1>
                 )}
             </div>
         </>
