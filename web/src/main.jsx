@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { ClerkProvider } from '@clerk/clerk-react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import './index.css';
+
 import '@material-symbols/font-700';
 
 import App from './App.jsx'
