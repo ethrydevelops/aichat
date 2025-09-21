@@ -5,9 +5,9 @@
 exports.up = function(knex) {
     return knex.schema.createTable("users", (table) => {
         table.uuid("uuid").primary();
-        table.string("username").notNullable().unique();
+        table.string("username");
         table.string("email").notNullable().unique();
-        table.string("password_hash").notNullable();
+        table.string("password").notNullable();
         table.timestamps(true, true);
     })
     .createTable("sessions", (table) => {
@@ -43,6 +43,6 @@ exports.up = function(knex) {
 exports.down = function(knex) {
     return knex.schema
         .dropTableIfExists("sessions")
-        .dropTableIfExists("users")
-        .dropTableIfExists("models");
+        .dropTableIfExists("models")
+        .dropTableIfExists("users");
 };

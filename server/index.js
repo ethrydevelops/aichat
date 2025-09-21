@@ -3,6 +3,8 @@ const path = require("path");
 const fs = require("fs");
 const console = require("./modules/console");
 
+const knex = require("./modules/database");
+
 require("dotenv").config({ quiet: true });
 
 const app = express();
