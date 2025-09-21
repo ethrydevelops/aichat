@@ -16,13 +16,13 @@ function NavBar() {
     const [miniNavbar, setMiniNavbar] = useState(() => !(cookies.get("nav-status-open") !== "closed"));
 
     function toggleNavbar() {
-        alert("TODO: toggle navbar to/from mini");
+        setNavbarOpen(!navbarOpen);
     }
 
     return (
         <nav>
             {/* big navbar */}
-            <div className={"navbar-col" + (navbarOpen ? " navbar-open" : "")}>
+            <div className={"navbar-col" + (navbarOpen ? " navbar-open" : "")} inert={navbarOpen ? false : true}>
                 <div className="navbar-col-header">
                     <Link to="/" className="navbar-logo-link" tabIndex={-1} onDragStart={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
                         <img src="/logo.svg" className="navbar-logo" />
@@ -31,10 +31,22 @@ function NavBar() {
                         <Link to="/" className="navbar-col-header-btn col-nav-link" aria-label="New Chat">
                             <span className="material-symbols-rounded navbar-btn-icon">add_2</span>
                         </Link>
-                        <button className="navbar-col-header-btn col-nav-link" aria-label="Close Sidebar" onClick={() => toggleNavbar()}>
+                        <button className="navbar-col-header-btn col-nav-link" aria-label="Close Sidebar" onClick={toggleNavbar}>
                             <span className="material-symbols-rounded navbar-btn-icon">dock_to_right</span>
                         </button>
                     </div>
+                </div>
+            </div>
+
+            {/* mini navbar */}
+            <div className="mini-navbar" inert={navbarOpen ? true : false}>
+                <div className="mini-navbar-btns">
+                    <button className="navbar-col-header-btn col-nav-link" aria-label="Open Sidebar" onClick={toggleNavbar}>
+                        <span className="material-symbols-rounded navbar-btn-icon">dock_to_right</span>
+                    </button>
+                    <Link to="/" className="navbar-col-header-btn col-nav-link" aria-label="New Chat">
+                        <span className="material-symbols-rounded navbar-btn-icon">add_2</span>
+                    </Link>
                 </div>
             </div>
         </nav>

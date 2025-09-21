@@ -37,14 +37,19 @@ body:has(.full-center-blur-behind) {
     user-select: none;
 }
 
-.app-container:has(nav) {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    transition: 0.3s;
-}
-
 .app-container {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+    display: grid;
+    grid-template-columns: 0 1fr;
+    transition: grid-template-columns 0.3s ease;
+}
+
+.app-container:has(.navbar-open) {
+    grid-template-columns: var(--navbar-width) 1fr;
+}
+
+.app-screen {
+    z-index: 1000;
 }

@@ -1,22 +1,35 @@
+:root {
+    --navbar-width: min(280px, 30vw);
+}
+
 :focus-visible {
     outline: 1px solid #0f0f0f;
 }
 
 .navbar-col {
+    position: relative;
+
     background: var(--col-nav-bg);
     border-right: 1px solid var(--col-nav-border);
     height: 100vh;
 
-    width: 280px;
-    max-width: 30vw;
+    width: var(--navbar-width);
 
     padding: 25px 30px;
+
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+.navbar-col:not(.navbar-open) { 
+    transform: translateX(-100%);
 }
 
 .navbar-logo {
     height: 40px;
     max-width: 65%;
     object-fit: contain;
+    object-position: left;
     user-select: none;
 
     margin-left: 5px;
@@ -29,7 +42,7 @@
     margin-bottom: 15px;
 }
 
-.navbar-col-header-btns {
+.navbar-col-header-btns, .mini-navbar-btns {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -62,6 +75,31 @@
 
 .navbar-btn-icon {
     font-size: 20px;
+}
+
+/* closed/"mini" navbar */
+.mini-navbar {
+    position: fixed;
+    top: 20px;
+    left: 0px;
+
+    transition: 0.3s;
+
+    background: var(--col-nav-bg);
+    border: 1px solid var(--col-nav-border);
+    border-radius: 12px;
+
+    padding: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9988;    
+}
+
+nav:has(.navbar-col:not(.navbar-open)) .mini-navbar {
+    left: 20px;
 }
 
 /* TODO: mobile */
