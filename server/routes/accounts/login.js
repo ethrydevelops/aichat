@@ -1,6 +1,7 @@
 const express = require("express");
 const knex = require("../../modules/database");
 const crypto = require("crypto");
+const console = require("../../modules/console");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
