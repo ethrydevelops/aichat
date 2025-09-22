@@ -20,7 +20,7 @@ exports.up = function(knex) {
         table.uuid("uuid").primary();
         
         table.string("name").notNullable();
-        table.string("description");
+        table.text("description");
 
         table.uuid("owner_uuid").nullable().references("uuid").inTable("users").onDelete("CASCADE");
 
@@ -29,7 +29,8 @@ exports.up = function(knex) {
         table.boolean("conn_private").defaultTo(false); // if connection info is not shared with user(s) (i.e, API key, url)
 
         table.string("api_url").notNullable();
-        table.string("api_authorization");
+        table.text("api_authorization");
+        table.boolean("is_encrypted").defaultTo(false);
         table.string("api_model"); // e.g., "gpt-4o", "gpt-3.5-turbo", "claude-2"
 
         table.timestamps(true, true);
