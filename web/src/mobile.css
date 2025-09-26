@@ -1,0 +1,15 @@
+@media only screen and (max-width: 600px) {
+    .landing-page-prompt-box-outer {
+        width: 80vw;
+        max-width: none;
+        min-width: 0;
+    }
+
+    .navbar-open {
+        width: 100vw !important;
+    }
+
+    .landing-page-title {
+        margin-bottom: 15px;
+    }
+}

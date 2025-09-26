@@ -4,6 +4,7 @@
 
     --col-nav-bg: #F9F9F9;
     --col-nav-border: #e4e4e4;
+    --col-standard-border: #d9d9d9;
     
     --col-nav-link: #4f4f4f;
     --col-nav-link-hover: #2e2e2e;
@@ -12,6 +13,10 @@
 body {
     background-color: var(--col-bg);
     color: var(--col-text);
+}
+
+* {
+    font-family: "Inter Variable", "Poppins", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .full-center {
@@ -52,4 +57,85 @@ body:has(.full-center-blur-behind) {
 
 .app-screen {
     z-index: 1000;
+}
+
+.d-flex-middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.landing-page-logo {
+    height: 70px;
+    user-select: none;
+    pointer-events: none;
+    max-width: calc(60vw - var(--navbar-width));
+    margin-bottom: 25px;
+}
+
+.landing-page-prompt-box-outer {
+    display: flex;
+
+    width: 800px;
+    min-width: 400px;
+    max-width: calc(65vw - var(--navbar-width));
+ 
+    outline: 1px solid var(--col-standard-border);
+    padding-left: 10px;
+
+    border-radius: 15px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.landing-page-prompt-box {
+    resize: none;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none !important;
+
+    font-size: 18px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.landing-page-title {
+    margin-bottom: 25px;
+}
+
+.landing-page-prompt-box-btn-ol { /* when one-line, TODO: change on type for multi-line */
+    aspect-ratio: 1 / 1;
+    border-radius: 15px;
+    margin: 6px;
+    height: calc(53px - 12px);
+    border: none;
+    background: black;
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.landing-page-prompt-box-btn-ol:hover {
+    background: var(--col-nav-link-hover);
+    cursor: pointer;
+}
+
+.landing-page-prompt-box-btn-ol:active {
+    transform: scale(0.97);
+}
+
+.landing-page-prompt-box-btn-ol:focus-visible {
+    transform: scale(0.92);
+    outline: 2px solid rgb(0, 0, 0, 0.65);
+    outline-offset: 3px;
 }

@@ -19,6 +19,8 @@
 
     transition: 0.3s;
     z-index: 9999;
+
+    overflow: hidden;
 }
 
 .navbar-col:not(.navbar-open) { 
@@ -96,10 +98,12 @@
     justify-content: center;
 
     z-index: 9988;    
+    opacity: 0.0;
 }
 
 nav:has(.navbar-col:not(.navbar-open)) .mini-navbar {
     left: 20px;
+    opacity: 1.0;
 }
 
 /* TODO: mobile */

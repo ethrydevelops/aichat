@@ -13,7 +13,6 @@ function NavBar() {
     if (navExcludedPaths.includes(location.pathname.toLowerCase())) return null;
 
     const [navbarOpen, setNavbarOpen] = useState(() => cookies.get("nav-status-open") !== "closed");
-    const [miniNavbar, setMiniNavbar] = useState(() => !(cookies.get("nav-status-open") !== "closed"));
 
     function toggleNavbar() {
         setNavbarOpen(!navbarOpen);
