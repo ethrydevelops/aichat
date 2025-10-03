@@ -5,11 +5,47 @@
         min-width: 0;
     }
 
+    .landing-page-prompt-under-box {
+        width: 80vw;
+        max-width: none;
+        min-width: 0;
+    }
+
     .navbar-open {
         width: 100vw !important;
     }
 
     .landing-page-title {
         margin-bottom: 15px;
+    }
+
+    .model-select-dialog {
+        position: fixed !important;
+        top: auto !important;
+        left: 50% !important;
+        right: 50% !important;
+        transform: translateX(-50%) !important;
+        bottom: 0px !important;
+        width: 100vw !important;
+        border-radius: 0 !important;
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+        margin: 0 !important;
+        padding: 15px !important;
+        border-bottom: none !important;
+        border-left: none !important;
+        border-right: none !important;
+
+        height: 85vh !important;
+    }
+
+    .no-mobile {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    .no-desktop {
+        display: none;
     }
 }

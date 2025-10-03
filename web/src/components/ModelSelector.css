@@ -1,0 +1,176 @@
+.landing-page-model-select-container {
+    position: relative;
+    display: inline-block;
+}
+
+.model-select-dialog {
+    border-radius: 5px;
+    border: 1px solid var(--col-standard-border);
+
+    position: absolute;
+    top: -15px;
+    left: 0;
+
+    width: 300px;
+    max-width: 100vw;
+
+    height: 200px;
+
+    
+    transform: scaleY(0.5);
+    transform-origin: top;
+
+    opacity: 0.0;
+    transition: 0.3s;
+}
+
+.modal-select-tag {
+    height: 0;
+    width: 100%;
+    position: relative;
+}
+
+.modal-select-tag span {
+    width: 7px;
+    height: 7px;
+    border-top-left-radius: 1px;
+    border-top: 1px solid var(--col-standard-border);
+    border-left: 1px solid var(--col-standard-border);
+    background: var(--col-bg);
+    position: absolute;
+    top: -20px;
+    left: 5px;
+    rotate: 45deg;
+}
+
+.modal-top-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.modal-top-flex > :nth-child(1) {
+    max-width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.modal-close-btn {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    color: dimgray;
+}
+
+.model-select-options {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.model-option-btn {
+    border: 1px solid var(--col-standard-border);
+    border-radius: 5px;
+    background: var(--col-bg);
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.model-option-btn:hover {
+    border-color: var(--col-emphasis-border);
+}
+
+.model-option-btn-loader-outer {
+    display: flex;
+    width: 100%;
+    opacity: 0.5;
+    height: 36px;
+    border-radius: 5px;
+}
+
+.model-option-btn-loader {
+    width: 100%;
+    height: 36px;
+    border-radius: 5px;
+}
+
+.model-select-dialog[open] {
+    animation: modelSelectDialogIn 0.15s forwards ease-out;
+}
+
+@keyframes modelSelectDialogIn {
+    from {
+        transform: scaleY(0.0);
+        opacity: 0;
+    }
+    to {
+        transform: scaleY(1.0);
+        opacity: 1;
+    }
+}
+
+.model-modal-no-models {
+    width: 100%;
+    text-align: center;
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+    user-select: none;
+}
+
+.model-modal-no-models-warning {
+    display: flex;
+    flex-direction: column;
+}
+
+.model-modal-no-models-warning span {
+    font-size: 50px;
+    margin-bottom: 5px;
+}
+
+.modal-warning-hint {
+    opacity: 0.65;
+    font-size: 14px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    gap: 3px;
+}
+
+.modal-warning-hint * {
+    font-size: 14px !important;
+}
+
+.model-option-circle {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    outline: 2px solid var(--col-standard-border);
+    background: transparent;
+}
+
+.model-option-circle[data-model-action-circle-active="true"] {
+    background: var(--col-active);
+    outline: 2px solid var(--col-active);
+}

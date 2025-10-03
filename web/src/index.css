@@ -5,9 +5,12 @@
     --col-nav-bg: #F9F9F9;
     --col-nav-border: #e4e4e4;
     --col-standard-border: #d9d9d9;
+    --col-emphasis-border: #a3a3a3;
     
     --col-nav-link: #4f4f4f;
     --col-nav-link-hover: #2e2e2e;
+
+    --col-active: #0d6efd; /* active state */
 }
 
 body {
@@ -138,4 +141,47 @@ body:has(.full-center-blur-behind) {
     transform: scale(0.92);
     outline: 2px solid rgb(0, 0, 0, 0.65);
     outline-offset: 3px;
+}
+
+.landing-page-prompt-under-box {
+    text-align: left;
+    margin-top: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    min-width: 400px;
+    max-width: calc(65vw - var(--navbar-width));
+}
+
+.landing-page-prompt-model-select-btn {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+    cursor: pointer;
+    user-select: none;
+    
+    max-width: 40%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+
+    font-size: 16px;
+}
+
+.landing-page-prompt-model-select-btn-selected-name { /* surely theres a better name */
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.landing-page-prompt-model-select-btn:hover {
+    color: var(--col-nav-link-hover);
 }
