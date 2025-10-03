@@ -81,7 +81,9 @@
     border: 1px solid var(--col-standard-border);
     border-radius: 5px;
     background: var(--col-bg);
-    padding: 8px;
+    padding: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
     text-align: left;
     cursor: pointer;
 
