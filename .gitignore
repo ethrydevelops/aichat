@@ -151,3 +151,4 @@ dist-ssr/
 *.sw?
 
 knexfile.js
+certs/
