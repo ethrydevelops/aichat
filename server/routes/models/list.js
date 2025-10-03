@@ -16,9 +16,9 @@ router.get("/models/", authn.protect, async (req, res) => {
 
         for (let model of models) {
             let sanitized = modelinfo.sanitize(model);
-
+            
             if(sanitized.sanitized) {
-                model.api_authorization = "********";
+                model.api_authorization = "********"; 
                 model.is_encrypted = null;
                 model.api_model = "****";
                 model.api_url = "*******";
@@ -26,6 +26,13 @@ router.get("/models/", authn.protect, async (req, res) => {
 
             if(model.owner_uuid == null) {
                 model.owner_uuid = "SYSTEM";
+            }
+
+            // credentials shouldnt be sent to client anyway
+            if(model.api_authorization.startsWith("Bearer ")) {
+                model.api_authorization = "Bearer ********";
+            } else {
+                model.api_authorization = "********"; 
             }
 
             detailedModels.push(sanitized);

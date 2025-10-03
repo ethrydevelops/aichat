@@ -2,9 +2,9 @@ const express = require("express");
 const knex = require("../../modules/database");
 const crypto = require("crypto");
 const console = require("../../modules/console");
+const authn = require("../../modules/authn");
 
 const router = express.Router();
-const authn = require("../../modules/authn");
 
 router.post("/models/", authn.protect, async (req, res) => {
     let { name, description, request } = req.body;
