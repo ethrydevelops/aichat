@@ -12,11 +12,21 @@ function NavBar() {
     const navExcludedPaths = ["/login", "/signup"];
     if (navExcludedPaths.includes(location.pathname.toLowerCase())) return null;
 
-    const [navbarOpen, setNavbarOpen] = useState(() => cookies.get("nav-status-open") !== "closed");
+    // if mobile size, dont show navbar by default, otherwise use cookie
+    const [navbarOpen, setNavbarOpen] = useState(() => {
+        if((window.innerWidth < 600)) return false;
+        return cookies.get("nav-status-open") !== "closed";
+    });
 
     function toggleNavbar() {
         setNavbarOpen(!navbarOpen);
     }
+
+    useEffect(() => {
+        if(cookies.get("nav-status-open") !== (navbarOpen ? "open" : "closed")) {
+            cookies.set("nav-status-open", navbarOpen ? "open" : "closed", { path: '/' });
+        }
+    }, [navbarOpen]);
 
     return (
         <nav>
