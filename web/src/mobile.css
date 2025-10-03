@@ -1,11 +1,5 @@
 @media only screen and (max-width: 600px) {
-    .landing-page-prompt-box-outer {
-        width: 80vw;
-        max-width: none;
-        min-width: 0;
-    }
-
-    .landing-page-prompt-under-box {
+    .landing-page-prompt-box-outer, .landing-page-prompt-under-box {
         width: 80vw;
         max-width: none;
         min-width: 0;
@@ -23,7 +17,6 @@
         position: fixed !important;
         top: auto !important;
         left: 50% !important;
-        right: 50% !important;
         transform: translateX(-50%) !important;
         bottom: 0px !important;
         width: 100vw !important;
