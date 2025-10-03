@@ -2,7 +2,6 @@ const express = require("express");
 const knex = require("../../modules/database");
 const authn = require("../../modules/authn");
 const console = require("../../modules/console");
-const modelinfo = require("../../modules/modelinfo");
 
 const router = express.Router();
 
@@ -17,7 +16,7 @@ router.delete("/models/:id", authn.protect, async (req, res) => {
             return res.status(404).json({ error: "Model not found" });
         }
 
-        await knex("models").where({ uuid: modelId }).del();
+        await knex("models").where({ uuid: modelId, owner_uuid: req.user.uuid }).del();
 
         res.status(200).json({ message: "Model deleted successfully" });
     } catch (error) {
