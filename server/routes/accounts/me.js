@@ -23,7 +23,7 @@ router.get("/me", authn.protect, async (req, res) => {
         });
     } catch (error) {
         console.error("Error retrieving user:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 

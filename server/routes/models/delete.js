@@ -18,7 +18,7 @@ router.delete("/models/:id", authn.protect, async (req, res) => {
 
         await knex("models").where({ uuid: modelId, owner_uuid: req.user.uuid }).del();
 
-        res.status(200).json({ message: "Model deleted successfully" });
+        res.status(204).send();
     } catch (error) {
         console.error("Error deleting model:", error);
         res.status(500).json({ error: "Internal server error." });

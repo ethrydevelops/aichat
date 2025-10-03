@@ -34,7 +34,7 @@ router.get("/models/", authn.protect, async (req, res) => {
         res.status(200).json({ models: detailedModels });
     } catch (error) {
         console.error("Error fetching models:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 

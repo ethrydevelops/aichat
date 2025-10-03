@@ -34,10 +34,10 @@ router.post("/accounts/create", async (req, res) => {
             password: passwordHash
         });
 
-        res.status(201).json({ message: "Account created successfully", uuid: uuid });
+        res.status(201).json({ message: "Account created successfully", id: uuid });
     } catch (error) {
         console.error("Error creating account:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 module.exports = router;

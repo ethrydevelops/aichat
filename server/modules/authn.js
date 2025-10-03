@@ -28,7 +28,7 @@ async function middleware(req, res, next) {
         next();
     } catch (error) {
         console.error("Error during authentication:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: "Internal server error" });
     }
 }
 

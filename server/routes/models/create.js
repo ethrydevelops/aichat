@@ -59,7 +59,7 @@ router.post("/models/", authn.protect, async (req, res) => {
         res.status(201).json({ message: "Model created successfully", id: modelId });
     } catch (error) {
         console.error("Error creating model:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 
