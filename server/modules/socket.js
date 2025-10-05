@@ -30,8 +30,6 @@ function initSocket(server) {
     io.use(socketAuthMW);
 
     io.on("connection", (socket) => {
-        console.log(`debug-User connected: ${socket.user.uuid}`);
-
         socket.on("subscribeChat", async (room) => {
             // room = conv_{uuid}
             const conversation = await knex("conversations")

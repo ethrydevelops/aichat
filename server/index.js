@@ -14,7 +14,6 @@ app.use(express.json());
 
 app.disable("x-powered-by");
 
-// debug
 console.info("Starting server at http://0.0.0.0:" + PORT + "..."); // TODO: https
 console.log("Environment:", process.env.NODE_ENV || "development");
 

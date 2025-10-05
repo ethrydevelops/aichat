@@ -177,23 +177,6 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                                         });
                                 }
 
-                                /* only delta is needed now that i think about it
-                                
-                                if(now - lastLlmSocket > 1500) {
-                                    lastLlmSocket = now;
-
-                                    socket.io.to(`conv_${conversationId}`).emit("chat_message_update", {
-                                        conversation: conversationId,
-                                        message: {
-                                            id: llmResponseUuid,
-                                            delta: output,
-                                            content: llmResponseContent,
-                                        },
-                                        role: "assistant",
-                                        status: "generating"
-                                    });
-                                } else {}*/
-
                                 socket.io.to(`conv_${conversationId}`).emit("chat_message_update", {
                                     conversation: conversationId,
                                     message: {
