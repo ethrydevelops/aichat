@@ -3,7 +3,7 @@ function AuthPage({ authType }) {
         <>
             <div className="full-center-blur-behind"></div>
             <div className="full-center">
-                {authType == "login" ? (
+                {authType == "login" ? ( // TODO: logins/auth on frontend
                     <h1>sign in page</h1>
                 ) : (
                     <h1>Sign up page</h1>
