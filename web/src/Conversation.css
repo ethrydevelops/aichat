@@ -1,0 +1,104 @@
+.conversation-container {
+    width: 100%;
+    height: 100vh;
+
+    display: grid;
+    grid-template-rows: 1fr 120px;
+}
+
+.conversation-container-content {
+    overflow: hidden;
+    height: 100%;
+}
+
+.conversation-messages {
+    height: 100%;
+    overflow-y: auto;
+
+    display: grid;
+    grid-template-columns: 15% 1fr 15%;
+}
+
+.conversation-messages-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 0;
+
+    width: 100%;
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
+.in-conversation-prompt-box {
+    resize: none;
+    width: calc(100% - 20px);
+    height: 100%;
+    border: none;
+    outline: none !important;
+
+    font-size: 18px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    border-radius: 15px;
+
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.conversation-input {
+    border-top: 1px solid var(--col-standard-border);
+    border-left: 1px solid var(--col-standard-border);
+    border-right: 1px solid var(--col-standard-border);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+
+    display: grid;
+    grid-template-rows: 80px 30px;
+    gap: 5px;
+    padding-bottom: 5px;
+
+    margin-left: calc(15% - 20px);
+    margin-right: calc(15% - 20px);
+}
+
+.under-input-options {
+    display: flex;
+    justify-content: space-between;
+
+    margin-left: 17px;
+    margin-right: 17px;
+}
+
+.conversation-no-messages-placeholder {
+    margin-top: 75px;
+}
+
+.conversation-no-messages-placeholder-subhead {
+    font-size: 18px;
+}
+
+.conversation-message-user {
+    background-color: var(--col-message-bubble-bg);
+    /*border: 1px solid var(--col-standard-border);*/
+
+    border-radius: 10px;
+    padding: 12px;
+    padding-left: 14px;
+    padding-right: 14px;
+    max-width: 60%;
+
+    white-space: pre-wrap;
+}
+
+.conversation-message-user-container {
+    display: flex;
+    justify-content: end;
+}
+
+.conversation-message-assistant {
+    white-space: pre-wrap;
+}

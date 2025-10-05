@@ -29,8 +29,8 @@ function ModelSelectDialog({ modelSelectorDialogOpen, onModelChange, activeModel
         }
 
         // fetch models from the api every time reopened
-        // 1.5 second debounce
-        if(Date.now() - lastModelScan > 1500) {            
+        // 1 second debounce
+        if(Date.now() - lastModelScan > 1000) {
             fetch((import.meta.env.VITE_API_URL.replace(/\/$/, "")) + "/models", {
                 method: "GET",
                 headers: {

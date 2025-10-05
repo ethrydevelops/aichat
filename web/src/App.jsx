@@ -1,9 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+
 import ModelSelectDialog from './components/ModelSelector';
 import Cookies from 'universal-cookie'
 
+import Greeting from './components/Greeting';
+
 function App() {
     const cookies = new Cookies();
+
+    const navigate = useNavigate();
 
     const [prompt, setPrompt] = useState("");
     const [model, setModel] = useState(() => {
@@ -21,15 +27,51 @@ function App() {
     });
 
     const [modelSelectorDialogOpen, setModelSelectorDialogOpen] = useState(false);
-    const [username, setUsername] = useState(cookies.get('askllm_usernameoverride') || "");
 
     function handleSendMessage(ev) {
         ev.preventDefault();
 
         if(prompt.trim() === "") return;
 
-        alert("You asked: " + prompt);
+        let promptToSend = prompt.trim();
         setPrompt("");
+
+        fetch(import.meta.env.VITE_API_URL + "conversations/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${cookies.get("askllm_tk")}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.conversation && data.conversation.uuid) {
+                fetch(import.meta.env.VITE_API_URL + "conversations/" + data.conversation.uuid + "/messages/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${cookies.get("askllm_tk")}`
+                    },
+                    body: JSON.stringify({
+                        content: promptToSend,
+                        model_uuid: model.uuid
+                    })
+                })
+                .then(() => {
+                    navigate("/c/" + data.conversation.uuid);
+                })
+                .catch(err => {
+                    console.error("Error sending message:", err);
+                    alert("There was an error sending the message."); // TODO: use toasts
+                });
+            } else {
+                alert("Error creating conversation");
+            }
+        })
+        .catch(err => {
+            console.error("Error creating conversation:", err);
+            alert("There was an error creating the conversation."); // TODO: use toasts
+        });
     }
 
     function modelPopup(ev) {
@@ -37,30 +79,12 @@ function App() {
         setModelSelectorDialogOpen(!modelSelectorDialogOpen);
     }
 
-    useEffect(() => {
-        // get username from account if logged in
-        if(cookies.get("askllm_tk")) {
-            fetch((import.meta.env.VITE_API_URL.replace(/\/$/, "")) + "/me", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${cookies.get("askllm_tk")}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.user.username && !cookies.get('askllm_usernameoverride')) {
-                    setUsername(data.user.username);
-                }
-            });
-        }
-    }, []);
-
     return (
         <div className="d-flex-middle">
             <div>
-                <h1 className="landing-page-title">How can I help you{username ? (", " + username) : ""}?</h1>
+                <h1 className="landing-page-title"><Greeting /></h1>
                 <form action="/">
-                    <div className="landing-page-prompt-box-outer">
+                    <div className="landing-page-prompt-box-outer"> {/* TODO: expand after typed in*/}
                         <textarea name="prompt" id="prompt" placeholder="Ask anything" className="landing-page-prompt-box" rows={1} value={prompt} onChange={(e) => setPrompt(e.target.value)} onKeyDown={(e) => {if (e.key === "Enter" && !e.shiftKey) {handleSendMessage(e);}}}></textarea>
                         <button type="submit" className="landing-page-prompt-box-btn-ol" onClick={handleSendMessage} aria-label="Send Message">
                             <span className="material-symbols-rounded">arrow_forward</span>

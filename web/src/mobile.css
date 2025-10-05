@@ -25,13 +25,27 @@
         border-top-right-radius: 15px !important;
         margin: 0 !important;
         padding: 15px !important;
-        border-bottom: none !important;
-        border-left: none !important;
-        border-right: none !important;
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
 
         height: 85vh !important;
     }
 
+    .conversation-no-messages-placeholder h1 {
+        font-size: 38px;
+        font-weight: bold;
+    }
+
+    .app-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 600;
+    }
+    
     .no-mobile {
         display: none;
     }
