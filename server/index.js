@@ -2,8 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const console = require("./modules/console");
-
-const knex = require("./modules/database");
+const server = require("./modules/socket");
 
 require("dotenv").config({ quiet: true });
 
@@ -31,7 +30,7 @@ function loadRoutes(dir) {
 
         if (stat.isDirectory()) {
             loadRoutes(fullPath); // subdirectories
-        } else if (file.endsWith('.js')) {
+        } else if (file.endsWith(".js")) {
             const route = require(fullPath);
             try {
                 app.use(route);
@@ -45,7 +44,4 @@ function loadRoutes(dir) {
 
 loadRoutes(path.join(__dirname, "routes"));
 
-// TODO: https, socket
-app.listen(PORT, () => {
-    console.success("Server is running on http://0.0.0.0:" + PORT + "...");
-});
+server.listen(app, PORT);

@@ -32,4 +32,26 @@ async function middleware(req, res, next) {
     }
 }
 
-module.exports = { protect: middleware };
+async function verifyToken(token, callback) {
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+    try {
+        const session = await knex("sessions").where({ token_hash: tokenHash }).first();
+        if (!session) {
+            return callback(new Error("Invalid token"));
+        }
+
+        const user = await knex("users").select("uuid", "username", "email", "created_at").where({ uuid: session.user_uuid }).first();
+        if (!user) {
+            return callback(new Error("User not found"));
+        }
+
+        callback(null, user);
+    } catch (error) {
+        console.error("Error verifying token:", error);
+        callback(error);
+    }
+}
+
+
+module.exports = { protect: middleware, verifyToken };
