@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.disable("x-powered-by");
 
-console.info("Starting server at http://0.0.0.0:" + PORT + "..."); // TODO: https
+console.info("Starting server at " + (process.env.https === "true" ? "https" : "http") + "://0.0.0.0:" + PORT + "...");
 console.log("Environment:", process.env.NODE_ENV || "development");
 
 console.log("Loading routes...");
