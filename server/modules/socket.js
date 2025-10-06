@@ -32,15 +32,19 @@ function initSocket(server) {
     io.on("connection", (socket) => {
         socket.on("subscribeChat", async (room) => {
             // room = conv_{uuid}
-            const conversation = await knex("conversations")
-                .where({ uuid: room.replace("conv_", ""), user_uuid: socket.user.uuid })
-                .first();
+            try {
+                const conversation = await knex("conversations")
+                    .where({ uuid: room.replace("conv_", ""), user_uuid: socket.user.uuid })
+                    .first();
 
-            if (!conversation) {
+                if (!conversation) {
+                    return;
+                }
+
+                socket.join(room);
+            } catch (error) {
                 return;
             }
-
-            socket.join(room);
         });
 
         socket.on("unsubscribeChat", (room) => {
