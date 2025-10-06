@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Cookies from "universal-cookie";
 import Greeting from "./components/Greeting";
-import TypingAnimation from "./components/TypingAnimation";
-
 import socket from "./components/Socket"; 
+import Message from "./components/Message";
 
 import "./Conversation.css";
 
@@ -101,49 +100,7 @@ function Conversation() {
                             </div>
                         )}
                         {messages.map((msg) => (
-                            <div key={msg.uuid} className={"conversation-message-box " + (msg.role === "user" ? "user-message" : "assistant-message")}>
-                                {
-                                    msg.role === "user" ? (
-                                        <div className="conversation-message-user-container">
-                                            <div className="conversation-message-user">
-                                                {msg.content}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        msg.role === "assistant" && (
-                                            msg.status == "generating" && msg.content == "" ? (
-                                                <TypingAnimation />
-                                            ) : (
-                                                <div className="conversation-message-assistant">
-                                                    {msg.content.trim().startsWith("<think>") ? (
-                                                        <>
-                                                            {/<think>.*?<\/think>/s.test(msg.content) && (
-                                                                <div className="assistant-think-box">
-                                                                    <strong>Thinking...</strong>
-                                                                    {/* TODO: style */}
-                                                                </div>
-                                                            )}
-
-                                                            {msg.content.replace(/<think>.*?<\/think>/s, "") ? (
-                                                                <div>
-                                                                    <div>
-                                                                        {msg.content.replace(/<think>.*?<\/think>/s, "").trim()}
-                                                                    </div>
-                                                                </div>
-                                                            ) : null}
-                                                        </>
-
-                                                    ) : (
-                                                        <div>
-                                                            {msg.content}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )
-                                        )
-                                    )
-                                }
-                            </div>
+                            <Message key={msg.uuid} msg={msg} />
                         ))}
                     </div>
                     <div></div>
