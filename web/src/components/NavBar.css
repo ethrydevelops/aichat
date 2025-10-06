@@ -118,13 +118,15 @@
     align-items: center;
     justify-content: center;
 
-    z-index: 9988;    
+    z-index: 9988;
     opacity: 0.0;
+    transform: scale(0.6);
 }
 
 nav:has(.navbar-col:not(.navbar-open)) .mini-navbar {
     left: 20px;
     opacity: 1.0;
+    transform: scale(1.0);
 }
 
 .nav-conversation-box {
