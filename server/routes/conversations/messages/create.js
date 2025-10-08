@@ -79,7 +79,7 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
         socket.io.to(`conv_${conversationId}`).emit("chat_message", {
             conversation: conversationId,
             message: {
-                id: llmResponseContent,
+                id: llmResponseUuid,
                 content: "",
             },
             role: "assistant",
@@ -160,6 +160,8 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                         try {
                             const json = JSON.parse(data);
                             const delta = json.choices[0]?.delta?.content || "";
+
+                            console.log(delta);
 
                             if (delta) {
                                 let output = delta;
