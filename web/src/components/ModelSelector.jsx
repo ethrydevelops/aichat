@@ -31,6 +31,13 @@ function ModelSelectDialog({ modelSelectorDialogOpen, onModelChange, activeModel
         // fetch models from the api every time reopened
         // 1 second debounce
         if(Date.now() - lastModelScan > 1000) {
+            if(!cookies.get("askllm_tk")) {
+                setModels([]);
+                setModelsLoading(false);
+                setModelsLoadError({ show: true, message: <>Please <Link to="/login" className="link-danger">log in</Link> to configure models.</> });
+                return;
+            }
+
             fetch((import.meta.env.VITE_API_URL.replace(/\/$/, "")) + "/models", {
                 method: "GET",
                 headers: {

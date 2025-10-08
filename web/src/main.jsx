@@ -10,9 +10,10 @@ import "@fontsource-variable/inter";
 import '@material-symbols/font-700';
 
 import App from './App.jsx'
-import AuthPage from './AuthPage.jsx';
+import AuthPage from './Login.jsx';
 import NavBar from './components/NavBar.jsx';
 import Conversation from './Conversation.jsx';
+import Logout from './Logout.jsx';
 
 if(!import.meta.env.VITE_API_URL) {
     createRoot(document.getElementById('root')).render(
@@ -37,6 +38,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/c/:id" element={<Conversation />} />
                     <Route path="/signup" element={<AuthPage authType="signup" />} />
                     <Route path="/login" element={<AuthPage authType="login" />} />
+                    <Route path="/logout" element={<Logout />} />
                 </Routes>
             </main>
         </div>

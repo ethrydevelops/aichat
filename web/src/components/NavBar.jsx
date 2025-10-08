@@ -10,9 +10,7 @@ function NavBar() {
 
     const [conversations, setConversations] = useState([]);
 
-    // dont show navbar on these paths:
-    const navExcludedPaths = ["/login", "/signup"];
-    if (navExcludedPaths.includes(location.pathname.toLowerCase())) return null;
+    var showBigNavbar = true;
 
     const [navbarOpen, setNavbarOpen] = useState(() => {
         if((window.innerWidth < 600)) return false; // closed by default on mobile
@@ -26,8 +24,14 @@ function NavBar() {
     }
 
     function toggleNavbar() {
+        if(!showBigNavbar) return setNavbarOpen(false);
+        
         setNavbarOpen(!navbarOpen);
     }
+
+    useEffect(() => {
+        if(!showBigNavbar) setNavbarOpen(false);
+    }, [showBigNavbar]);
 
     useEffect(() => {
         if(cookies.get("nav-status-open") !== (navbarOpen ? "open" : "closed")) {
@@ -36,6 +40,11 @@ function NavBar() {
     }, [navbarOpen]);
 
     useEffect(() => {
+        if(!cookies.get("askllm_tk")) {
+            setConversations([]);
+            return;
+        }
+        
         fetch(import.meta.env.VITE_API_URL + "conversations/", {
             method: "GET",
             headers: {
@@ -56,7 +65,14 @@ function NavBar() {
         }).catch(err => {
             console.error("Error fetching conversations:", err);
         });
-    }, []);
+    }, [location]);
+
+    // dont show full navbar on these paths:
+    const navExcludedPaths = ["/login", "/signup"];
+    if (navExcludedPaths.includes(location.pathname.toLowerCase())) {
+        showBigNavbar = false;
+        if(navbarOpen) setNavbarOpen(false);
+    }
 
     return (
         <nav>
@@ -101,9 +117,15 @@ function NavBar() {
             {/* mini navbar */}
             <div className="mini-navbar" inert={navbarOpen ? true : false} onDragStart={(e) => e.preventDefault()}>
                 <div className="mini-navbar-btns">
-                    <button className="navbar-col-header-btn col-nav-link" aria-label="Open Sidebar" onClick={toggleNavbar}>
-                        <span className="material-symbols-rounded navbar-btn-icon">dock_to_right</span>
-                    </button>
+                    { showBigNavbar ? (
+                        <button className="navbar-col-header-btn col-nav-link" aria-label="Open Sidebar" onClick={toggleNavbar}>
+                            <span className="material-symbols-rounded navbar-btn-icon">dock_to_right</span>
+                        </button>
+                    ) : (
+                        <Link to="/" className="navbar-col-header-btn col-nav-link" aria-label="New Chat">
+                            <span className="material-symbols-rounded navbar-btn-icon">home</span>
+                        </Link>
+                    ) }
                     <Link to="/" className="navbar-col-header-btn col-nav-link" aria-label="New Chat">
                         <span className="material-symbols-rounded navbar-btn-icon">add_2</span>
                     </Link>
