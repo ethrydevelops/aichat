@@ -1,0 +1,174 @@
+code, code * {
+    font-family: "JetBrains Mono", monospace !important;
+    color: dimgray;
+}
+
+.markdown-message-content pre {
+    border-radius: 7px;
+}
+
+.markdown-message-content p {
+    margin: 0;
+    padding: 0;
+}
+
+.markdown-message-content blockquote {
+    margin: 0;
+    padding-left: 1em;
+    border-left: 4px solid silver;
+    color: gray;
+}
+
+.markdown-message-content ol, .markdown-message-content ul {
+    margin: 0;
+}
+
+.markdown-message-content ol li, .markdown-message-content ul li {
+    margin: 0;
+    padding: 0;
+    line-height: 1.25;
+}
+
+.markdown-message-content h1 {
+    font-size: 2em;
+    margin: 0 0;
+}
+
+.markdown-message-content h2 {
+    font-size: 1.5em;
+    margin: 0 0;
+}
+
+.markdown-message-content h3 {
+    font-size: 1.17em;
+    margin: 0 0;
+}
+
+.markdown-message-content h4 {
+    font-size: 1em;
+    margin: 0 0;
+}
+
+.markdown-message-content h5 {
+    font-size: 0.83em;
+    margin: 0 0;
+}
+
+.markdown-message-content h6 {
+    font-size: 0.75em;
+    margin: 0 0;
+}
+
+.markdown-message-content table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e1e4e8;
+    margin: 0.5rem 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.95rem;
+}
+
+.markdown-message-content table caption {
+    caption-side: top;
+    text-align: left;
+    padding: 0.25rem 0.5rem;
+    font-weight: 600;
+    color: #586069;
+}
+
+.markdown-message-content table th,
+.markdown-message-content table td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.markdown-message-content table th {
+    background: #f6f8fa;
+    font-weight: 600;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.markdown-message-content table td {
+    border-top: 1px solid #e1e4e8;
+}
+
+.markdown-message-content table tr:nth-child(even) td {
+    background: #fbfcfd;
+}
+
+
+.markdown-message-content table strong {
+    font-weight: 600;
+}
+
+.markdown-message-content  .task-list-item {
+    list-style-type: none;
+}
+
+.markdown-message-content  .task-list-item input {
+    margin: 0 0.5em 0.25em -1.5em;
+    vertical-align: middle;
+}
+
+.markdown-message-code-block-container {
+    position: relative;
+}
+
+.markdown-message-code-block-container[data-code-block-small="true"], .markdown-message-code-block-container[data-code-block-small="true"] .markdown-message-code-block {
+    display: inline-block;
+    max-width: 100%;
+    width: auto;
+}
+
+.markdown-message-code-block-container[data-code-block-small="true"] pre {
+    margin: 0;
+    vertical-align: middle;
+    background-color: #f8f8f8;
+}
+
+.markdown-message-copy-button {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding-top: 5px;
+    padding: 7px;
+    color: gray;
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+    transition: 0.3s;
+
+    gap: 5px;
+}
+
+.markdown-message-copy-button[data-code-block-small="true"] {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.markdown-message-copy-button:hover {
+    color: dimgray;
+}
+
+.markdown-message-copy-button-icon {
+    font-size: 18px;
+}
+
+.plain-code-inner {
+    white-space: pre;
+}
+
+.markdown-message-code-block {
+    width: 100%;
+    background: #fafafa;
+    padding: 0.5em;
+}
