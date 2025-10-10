@@ -46,6 +46,7 @@ function Conversation() {
                     const updatedMessages = prevMessages.map(msg => 
                         msg.uuid === messageUpdate.message.id ? {
                             ...msg,
+                            reasoning: messageUpdate.message.reasoning || msg.reasoning || "",
                             content: messageUpdate.message.content || msg.content + messageUpdate.message.delta,
                             status: messageUpdate.status
                         } : msg
@@ -68,7 +69,7 @@ function Conversation() {
         
         tempMsgs = tempMsgs.map(msg => {
             if(msg.role === "user") return msg;
-            if(msg.content.trim().startsWith("◁think▷") && !msg.content.trim().includes("◁/think▷")) {
+            /*if(msg.content.trim().startsWith("◁think▷") && !msg.content.trim().includes("◁/think▷")) {
                 msg.content = msg.content.replace("◁think▷", "<think>") + "</think>";
                 return { ...msg, content: msg.content };
             }
@@ -80,7 +81,7 @@ function Conversation() {
 
             if (msg.content.trim().startsWith("<think>") && !msg.content.trim().includes("</think>")) {
                 return { ...msg, content: msg.content + "</think>" };
-            }
+            }*/
             return msg;
         });
 

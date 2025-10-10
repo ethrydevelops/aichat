@@ -45,31 +45,24 @@ function Message({msg}) {
                             <TypingAnimation />
                         ) : (
                             <div className="conversation-message-assistant">
-                                {msg.content.trim().startsWith("<think>") ? (
-                                    <>
-                                        {/<think>.*?<\/think>/s.test(msg.content) && (
-                                            <div className="assistant-think-box">
-                                                <strong>Thinking...</strong>
-                                                {/* TODO: style */}
-                                            </div>
-                                        )}
+                                <>
+                                    {msg.reasoning ? (
+                                        <div className="markdown-message-reasoning">
+                                            <b>Reasoning:</b>
+                                            <Markdown {...highlightProps}>
+                                                {msg.reasoning.trim()}
+                                            </Markdown>
+                                        </div>
+                                    ) : null}
 
-                                        {msg.content.replace(/<think>.*?<\/think>/s, "") ? (
-                                            <div className="markdown-message-content">
-                                                <Markdown {...highlightProps}>
-                                                    {msg.content.replace(/<think>.*?<\/think>/s, "").trim()}
-                                                </Markdown>
-                                            </div>
-                                        ) : null}
-                                    </>
-
-                                ) : (
-                                    <div className="markdown-message-content">
-                                        <Markdown {...highlightProps}>
-                                            {msg.content}
-                                        </Markdown>
-                                    </div>
-                                )}
+                                    {msg.content.replace(/<think>.*?<\/think>/s, "") ? (
+                                        <div className="markdown-message-content">
+                                            <Markdown {...highlightProps}>
+                                                {msg.content.trim()}
+                                            </Markdown>
+                                        </div>
+                                    ) : null}
+                                </>
                             </div>
                         )
                     )
