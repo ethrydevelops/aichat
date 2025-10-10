@@ -118,6 +118,32 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
 
             clearTimeout(timeoutId);
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                const errorJson = JSON.parse(errorText);
+                const errorResponse = errorJson.error?.metadata?.raw || errorJson.error?.message || errorText || "Unknown error";
+
+                await knex("messages").where({ uuid: llmResponseUuid }).update({
+                    status: "error",
+                    error_message: errorResponse
+                });
+                
+                socket.io.to(`conv_${conversationId}`).emit("chat_message", {
+                    conversation: conversationId,
+                    message: {
+                        id: llmResponseUuid,
+                        content: "",
+                        delta: "",
+                        reasoning: "",
+                        error_message: errorResponse
+                    },
+                    role: "assistant",
+                    status: "error"
+                });
+
+                return;
+            }
+
             if (response.body) {
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
