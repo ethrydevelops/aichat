@@ -49,6 +49,7 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
             message: {
                 uuid: messageId,
                 content: content,
+                reasoning: ""
             },
             role: "user",
             status: "sent"
@@ -64,13 +65,15 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
 
         // create response
         const llmResponseUuid = crypto.randomUUID();
-        var llmResponseContent = "";
+        var llmResponseContent = { content: "", reasoning: "" };
         var lastLlmResponse = 0;
+        var isThinking = false;
         
         await knex("messages").insert({
             uuid: llmResponseUuid,
             conversation_uuid: conversationId,
             content: "",
+            reasoning: "",
             role: "assistant",
             model_uuid: model_uuid,
             status: "generating"
@@ -81,6 +84,7 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
             message: {
                 id: llmResponseUuid,
                 content: "",
+                reasoning: ""
             },
             role: "assistant",
             status: "generating"
@@ -138,7 +142,8 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                             await knex("messages")
                                 .where({ uuid: llmResponseUuid })
                                 .update({
-                                    content: llmResponseContent,
+                                    content: llmResponseContent.content || "",
+                                    reasoning: llmResponseContent.reasoning || "",
                                     status: "generated"
                                 });
 
@@ -148,7 +153,9 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                                 message: {
                                     id: llmResponseUuid,
                                     delta: "",
-                                    content: llmResponseContent,
+                                    reasoning: llmResponseContent.reasoning || "",
+                                    content: llmResponseContent.content || "",
+                                    type: isThinking ? "reasoning" : "content",
                                 },
                                 role: "assistant",
                                 status: "generated"
@@ -159,13 +166,18 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
 
                         try {
                             const json = JSON.parse(data);
-                            const delta = json.choices[0]?.delta?.content || "";
+                            const delta = json.choices[0]?.delta?.reasoning || json.choices[0]?.delta?.content || "";
 
-                            console.log(delta);
+                            isThinking = json.choices[0]?.delta?.reasoning ? true : false;
 
                             if (delta) {
                                 let output = delta;
-                                llmResponseContent += output;
+
+                                if(isThinking) {
+                                    llmResponseContent.reasoning += output;
+                                }
+
+                                llmResponseContent.content += json.choices[0]?.delta?.content || "";
 
                                 const now = Date.now();
                                 if (now - lastLlmResponse > 1000) { // 1s rate limit
@@ -174,7 +186,8 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                                     await knex("messages")
                                         .where({ uuid: llmResponseUuid })
                                         .update({
-                                            content: llmResponseContent,
+                                            content: llmResponseContent.content,
+                                            reasoning: llmResponseContent.reasoning || "",
                                             updated_at: knex.fn.now()
                                         });
                                 }
@@ -183,7 +196,9 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                                     conversation: conversationId,
                                     message: {
                                         id: llmResponseUuid,
-                                        delta: output
+                                        delta: !isThinking ? output : "",
+                                        reasoning: llmResponseContent.reasoning || "",
+                                        type: json.choices[0]?.delta?.reasoning ? "reasoning" : "content",
                                     },
                                     role: "assistant",
                                     status: "generating"

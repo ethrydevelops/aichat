@@ -19,7 +19,7 @@ router.get("/conversations/:id/messages", authn.protect, async (req, res) => {
 
         const messages = await knex("messages")
             .where({ conversation_uuid: conversationId })
-            .select("uuid", "content", "role", "model_uuid", "status", "error_message", "created_at")
+            .select("uuid", "content", "reasoning", "role", "model_uuid", "status", "error_message", "created_at")
             .orderBy("created_at", "asc");
 
         res.status(200).json({ messages: messages });
