@@ -1,6 +1,6 @@
 import TypingAnimation from "./TypingAnimation";
 import Markdown from "react-markdown";
-import remarkGfm from 'remark-gfm';
+import remarkGfm from "remark-gfm";
 import CodeBlock from "./CodeBlock";
 import { Link } from "react-router";
 
@@ -31,7 +31,7 @@ function Message({msg}) {
     }
 
     return (
-        <div key={msg.uuid} className={"conversation-message-box " + (msg.role === "user" ? "user-message" : "assistant-message")}>
+        <div className={"conversation-message-box " + (msg.role === "user" ? "user-message" : "assistant-message")}>
             {
                 msg.role === "user" ? (
                     <div className="conversation-message-user-container">
@@ -41,7 +41,7 @@ function Message({msg}) {
                     </div>
                 ) : (
                     msg.role === "assistant" && (
-                        msg.status == "generating" && msg.content == "" ? (
+                        msg.status == "generating" && msg.status != "error" && msg.content == "" ? (
                             <TypingAnimation />
                         ) : (
                             <div className="conversation-message-assistant">
@@ -55,11 +55,19 @@ function Message({msg}) {
                                         </div>
                                     ) : null}
 
-                                    {msg.content.replace(/<think>.*?<\/think>/s, "") ? (
+                                    {msg.content?.replace(/<think>.*?<\/think>/s, "") ? (
                                         <div className="markdown-message-content">
                                             <Markdown {...highlightProps}>
                                                 {msg.content.trim()}
                                             </Markdown>
+                                        </div>
+                                    ) : null}
+
+                                    {msg.status === "error" ? (
+                                        <div className="message-error-box">
+                                            <div className="alert alert-danger" role="alert">
+                                                Error while generating: {msg.error_message}
+                                            </div>
                                         </div>
                                     ) : null}
                                 </>

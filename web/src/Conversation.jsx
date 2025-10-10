@@ -82,6 +82,7 @@ function Conversation() {
             if (msg.content.trim().startsWith("<think>") && !msg.content.trim().includes("</think>")) {
                 return { ...msg, content: msg.content + "</think>" };
             }*/
+           
             return msg;
         });
 
