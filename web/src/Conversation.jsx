@@ -36,7 +36,14 @@ function Conversation() {
 
         socket.on("chat_message", (message) => {
             if (message.conversation === chatId) {
-                setMessages(prevMessages => formatMessages([...prevMessages, message]));
+                setMessages(prevMessages => formatMessages([...prevMessages, {
+                    uuid: message.id,
+                    content: message.content || "",
+                    reasoning: message.reasoning || "",
+                    role: message.role,
+                    status: message.status,
+                    error_message: message.error_message || ""
+                }]));
             }
         });
 
@@ -48,9 +55,11 @@ function Conversation() {
                             ...msg,
                             reasoning: messageUpdate.message.reasoning || msg.reasoning || "",
                             content: messageUpdate.message.content || msg.content + messageUpdate.message.delta,
-                            status: messageUpdate.status
+                            status: messageUpdate.status,
+                            error_message: messageUpdate.message.error_message || msg.error_message || ""
                         } : msg
                     );
+
                     return formatMessages(updatedMessages);
                 });
             }
@@ -66,25 +75,6 @@ function Conversation() {
 
     function formatMessages(inputMsgs) {
         let tempMsgs = inputMsgs;
-        
-        tempMsgs = tempMsgs.map(msg => {
-            if(msg.role === "user") return msg;
-            /*if(msg.content.trim().startsWith("◁think▷") && !msg.content.trim().includes("◁/think▷")) {
-                msg.content = msg.content.replace("◁think▷", "<think>") + "</think>";
-                return { ...msg, content: msg.content };
-            }
-
-            if(msg.content.trim().startsWith("◁think▷") && msg.content.trim().includes("◁/think▷")) {
-                msg.content = msg.content.replace("◁think▷", "<think>").replace("◁/think▷", "</think>");
-                return { ...msg, content: msg.content };
-            }
-
-            if (msg.content.trim().startsWith("<think>") && !msg.content.trim().includes("</think>")) {
-                return { ...msg, content: msg.content + "</think>" };
-            }*/
-           
-            return msg;
-        });
 
         return tempMsgs;
     }

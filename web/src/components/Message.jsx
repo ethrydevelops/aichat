@@ -41,7 +41,7 @@ function Message({msg}) {
                     </div>
                 ) : (
                     msg.role === "assistant" && (
-                        msg.status == "generating" && msg.status != "error" && msg.content == "" ? (
+                        msg.status == "generating" && !msg.error_message && (msg.content == "" && msg.reasoning == "") ? (
                             <TypingAnimation />
                         ) : (
                             <div className="conversation-message-assistant">
@@ -66,7 +66,7 @@ function Message({msg}) {
                                     {msg.status === "error" ? (
                                         <div className="message-error-box">
                                             <div className="alert alert-danger" role="alert">
-                                                Error while generating: {msg.error_message}
+                                                Error while generating: {msg.message?.error_message || msg.error_message || "Unknown error"}
                                             </div>
                                         </div>
                                     ) : null}
