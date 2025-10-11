@@ -110,7 +110,7 @@ function Conversation() {
                 <textarea name="prompt" id="prompt" placeholder="Ask anything" className="in-conversation-prompt-box" value={nextPrompt} onChange={(e) => setNextPrompt(e.target.value)} onKeyDown={(e) => {if (e.key === "Enter" && !e.shiftKey) {handleSendMessage(e);}}}></textarea>
 
                 <div className="under-input-options">
-                    abc
+                    Tools
                 </div>
             </form>
         </div>
