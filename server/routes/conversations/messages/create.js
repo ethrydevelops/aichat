@@ -92,9 +92,6 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
 
         // call the api in the background ...
 
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2*60*1000);
-
         try {
             const headersArray = {};
             const bodyArray = {};
@@ -112,11 +109,8 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                 headers: {
                     "Content-Type": "application/json",
                     ...headersArray
-                },
-                signal: controller.signal
+                }
             });
-
-            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 const errorText = await response.text();
@@ -134,7 +128,7 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                         id: llmResponseUuid,
                         content: llmResponseContent.content || "",
                         delta: "",
-                        reasoning: "",
+                        reasoning: llmResponseContent.reasoning || "",
                         error_message: errorResponse
                     },
                     role: "assistant",
@@ -242,17 +236,23 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
             }
             
         } catch (error) {
-            if (error.name === "AbortError") {
-                console.error("Request timed out");
-                // TODO: show error message in chat
+            socket.io.to(`conv_${conversationId}`).emit("chat_message_update", {
+                conversation: conversationId,
+                message: {
+                    id: llmResponseUuid,
+                    content: llmResponseContent.content || "",
+                    delta: "",
+                    reasoning: llmResponseContent.reasoning || "",
+                    error_message: error || "Unknown error"
+                },
+                role: "assistant",
+                status: "error"
+            });
 
-                await knex("messages").where({ uuid: llmResponseUuid }).update({
-                    status: "error",
-                    error_message: "Request timed out"
-                });
-            } else {
-                console.error("Error piping from model API", error);
-            }
+            knex("messages").where({ uuid: llmResponseUuid }).update({
+                status: "error",
+                error_message: error || "Unknown error"
+            });
         }        
     } catch (error) {
         console.error("Error creating message:", error);
