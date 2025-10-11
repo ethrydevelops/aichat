@@ -1,3 +1,4 @@
+import { useState } from "react";
 import TypingAnimation from "./TypingAnimation";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -8,6 +9,8 @@ import "@fontsource/jetbrains-mono";
 import "./Message.css";
 
 function Message({msg}) {
+    const [reasoningBoxOpen, setReasoningBoxOpen] = useState(false);
+
     const highlightProps = {
         components: {
             code(props) {
@@ -47,18 +50,34 @@ function Message({msg}) {
                             <div className="conversation-message-assistant">
                                 <>
                                     {msg.reasoning ? (
-                                        <div className="markdown-message-reasoning">
-                                            <b>Reasoning:</b>
-                                            <Markdown {...highlightProps}>
-                                                {msg.reasoning.trim()}
-                                            </Markdown>
+                                        <div className="message-reasoning-container">
+                                            <div className="message-reasoning-announcement-outer">
+                                                <div className="message-reasoning-announcement" onClick={() => setReasoningBoxOpen(!reasoningBoxOpen)}>
+                                                    <span className="material-symbols-outlined" aria-hidden="true">
+                                                        neurology
+                                                    </span>
+                                                    {msg.content == "" ? "Reasoning" : "Thought for a few moments"}
+                                                </div>
+                                                { msg.content != "" && (
+                                                    <button onClick={() => setReasoningBoxOpen(!reasoningBoxOpen)} className="message-reasoning-announcement-chevron-btn">
+                                                        <span className="material-symbols-rounded message-reasoning-announcement-chevron" data-animation-status={reasoningBoxOpen ? "open" : "closed"}>
+                                                            chevron_left
+                                                        </span>
+                                                    </button>
+                                                )}
+                                            </div>
+                                            <div className="markdown-message-reasoning message-reasoning-content" data-reasoning-box-open={reasoningBoxOpen || msg.content == "" ? "true" : "false"}>
+                                                <Markdown {...highlightProps}>
+                                                    {msg.reasoning?.trim()}
+                                                </Markdown>
+                                            </div>
                                         </div>
                                     ) : null}
 
                                     {msg.content?.replace(/<think>.*?<\/think>/s, "") ? (
                                         <div className="markdown-message-content">
                                             <Markdown {...highlightProps}>
-                                                {msg.content.trim()}
+                                                {msg.content?.trim()}
                                             </Markdown>
                                         </div>
                                     ) : null}
