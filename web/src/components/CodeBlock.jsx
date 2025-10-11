@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomOneLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
@@ -13,6 +13,29 @@ const CodeBlock = ({ children, plain, language } = {}) => {
     };
 
     const isSingleLine = !code.includes("\n");
+
+    const syntaxHighlighter = useMemo(() => {
+        if (plain) {
+            return (
+                <pre className="markdown-message-code-block">
+                    <code className="plain-code-inner">
+                        {code}
+                    </code>
+                </pre>
+            );
+        }
+
+        return (
+            <SyntaxHighlighter
+                language={language}
+                style={atomOneLight}
+                PreTag="div"
+                className="markdown-message-code-block"
+            >
+                {code}
+            </SyntaxHighlighter>
+        );
+    }, [code, language, plain]);
 
     return (
         <div className="markdown-message-code-block-container" data-code-block-small={isSingleLine}>
@@ -38,22 +61,7 @@ const CodeBlock = ({ children, plain, language } = {}) => {
                 </button>
             )}
 
-            {!plain ? (
-                <SyntaxHighlighter
-                    language={language}
-                    style={atomOneLight}
-                    PreTag="div"
-                    className="markdown-message-code-block"
-                >
-                    {code}
-                </SyntaxHighlighter>
-            ) : (
-                <pre className="markdown-message-code-block">
-                    <code className="plain-code-inner">
-                        {code}
-                    </code>
-                </pre>
-            )}
+            {syntaxHighlighter}
         </div>
     );
 };

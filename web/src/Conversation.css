@@ -99,7 +99,3 @@
     display: flex;
     justify-content: end;
 }
-
-.conversation-message-assistant {
-    white-space: pre-wrap;
-}
