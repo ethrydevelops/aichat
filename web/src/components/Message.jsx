@@ -49,7 +49,7 @@ function Message({msg}) {
                         ) : (
                             <div className="conversation-message-assistant">
                                 <>
-                                    {msg.reasoning ? (
+                                    {msg.reasoning && (
                                         <div className="message-reasoning-container">
                                             <div className="message-reasoning-announcement-outer">
                                                 <div className="message-reasoning-announcement" onClick={() => setReasoningBoxOpen(!reasoningBoxOpen)}>
@@ -72,23 +72,23 @@ function Message({msg}) {
                                                 </Markdown>
                                             </div>
                                         </div>
-                                    ) : null}
+                                    )}
 
-                                    {msg.content?.replace(/<think>.*?<\/think>/s, "") ? (
+                                    {msg.content != "" && (
                                         <div className="markdown-message-content">
                                             <Markdown {...highlightProps}>
                                                 {msg.content?.trim()}
                                             </Markdown>
                                         </div>
-                                    ) : null}
+                                    )}
 
-                                    {msg.status === "error" ? (
+                                    {msg.status === "error" && (
                                         <div className="message-error-box">
                                             <div className="alert alert-danger" role="alert">
                                                 Error while generating: {msg.message?.error_message || msg.error_message || "Unknown error"}
                                             </div>
                                         </div>
-                                    ) : null}
+                                    )}
                                 </>
                             </div>
                         )

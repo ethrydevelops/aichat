@@ -164,11 +164,83 @@ code, code * {
 }
 
 .plain-code-inner {
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 .markdown-message-code-block {
     width: 100%;
     background: #fafafa;
-    padding: 0.5em;
+    padding: 7px;
+    border-radius: 5px;
+    scrollbar-width: none;
+}
+
+.markdown-message-code-block code {
+    white-space: pre-wrap !important;
+    word-break: break-word; 
+}
+
+.message-reasoning-announcement {
+    background: var(--col-message-bubble-bg);
+
+    display: inline-flex;
+    align-items: center;
+
+    border-radius: 10px;
+    gap: 7px;
+
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    user-select: none;
+    cursor: pointer;
+}
+
+.message-reasoning-container {
+    margin-bottom: 15px;
+}
+
+.message-reasoning-content {
+    padding-left: 10px;
+    border-left: 3px solid #f0f0f0;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.message-reasoning-content[data-reasoning-box-open=false] {
+    display: none;
+}
+
+.message-reasoning-announcement-outer {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    user-select: none;
+}
+
+.message-reasoning-announcement-chevron {
+    transition: 0.1s;
+}
+
+.message-reasoning-announcement-chevron[data-animation-status="open"] {
+    transform: rotate(-90deg);
+}
+
+.message-reasoning-announcement-chevron-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    opacity: 0.5;
+    transition: 0.1s;
+}
+
+.message-reasoning-announcement-chevron-btn:hover {
+    opacity: 0.75;
 }
