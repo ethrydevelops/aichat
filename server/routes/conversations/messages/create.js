@@ -128,11 +128,11 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
                     error_message: errorResponse
                 });
                 
-                socket.io.to(`conv_${conversationId}`).emit("chat_message", {
+                socket.io.to(`conv_${conversationId}`).emit("chat_message_update", {
                     conversation: conversationId,
                     message: {
                         id: llmResponseUuid,
-                        content: "",
+                        content: llmResponseContent.content || "",
                         delta: "",
                         reasoning: "",
                         error_message: errorResponse
@@ -245,6 +245,11 @@ router.post("/conversations/:id/messages", authn.protect, async (req, res) => {
             if (error.name === "AbortError") {
                 console.error("Request timed out");
                 // TODO: show error message in chat
+
+                await knex("messages").where({ uuid: llmResponseUuid }).update({
+                    status: "error",
+                    error_message: "Request timed out"
+                });
             } else {
                 console.error("Error piping from model API", error);
             }
